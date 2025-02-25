@@ -8,7 +8,7 @@ race: Tiefling
 class: Sorcerer
 subClass: Draconic Bloodline
 cover: /Assets/Images/Party/imgLazarus.png
-displayLink: "[[Lazarus|Lazarus Illondris-Maladomini]]"
+displayLink: "[[Lazarus Illondris-Maladomini]]"
 alias: Lazarus
 share_link: https://share.note.sx/4yktmnzc#UjiKTvT6HrnBgXV36hlSeuXPtTFNoF1AtUUvsdyaeAs
 share_updated: 2025-02-25T15:32:48+00:00

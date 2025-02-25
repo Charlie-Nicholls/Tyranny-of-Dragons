@@ -71,7 +71,13 @@ Description
 - None
 
 ### Allies
-- [[Characters]] or [[Organisations]]
+- [[Bellotorus]]
+- [[Cas]]
+- [[Snuff]]
+- [[Xylaria]]
+- [[Force Grey]]
+- [[Jaraxle Baenre]]
 
 ### Enemies
-- [[Characters]] or [[Organisations]]
+- [[Xanathar]]
+- [[Manshoon]]

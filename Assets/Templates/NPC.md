@@ -35,7 +35,6 @@ const job = result.Job.value;
 const location = result.Location.value;
 const name = result.Name.value;
 const race = result.Race.value;
-const age = result.Age.value;
 const sub = formatSub(location, affinity);
 
 if (result.status === 'ok') {
@@ -72,7 +71,6 @@ ___
 > | :FasBriefcase: Job |  <% job ? job : '' %> |
 > | :FasVenusMars: Gender | <% gender ? gender : '' %> |
 > | :FasUser: Race | <% race ? race : '' %> |
-> | :FasClock: Age | <% age ? age : '' %> |
 >
 >> [!info]- STORYLINES
 >>```dataview
@@ -107,9 +105,5 @@ Description
 ### Enemies
 - [[Characters]] or [[Organisations]]
 
-### Secrets
-- None
-
-### Statblock
->```statblock
-name: <% name %>
+### Appearances
+- 

@@ -67,16 +67,6 @@
             "type": "dataview",
             "query": "dv.pages('\"Compendium/Atlas\"').file.name"
           }
-        },
-        {
-          "name": "Age",
-          "label": "Age:",
-          "description": "",
-          "isRequired": false,
-          "input": {
-            "type": "number",
-            "hidden": false
-          }
         }
       ],
       "version": "1",
