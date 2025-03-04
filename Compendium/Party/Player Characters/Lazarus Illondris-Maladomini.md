@@ -39,7 +39,7 @@ ___
 >> [!info]- STORYLINES
 >>```dataview
 >>LIST WITHOUT ID displayLink
->>FROM "Compendium/Party/Quests" AND ([[Lazarus Illondris-Maladomini]]  OR [[The Party]])
+>>FROM "Compendium/Party/Quests" AND ([[#]]  OR [[The Party]])
 >>SORT file.ctime DESC
 >
 >>[!note]- HISTORY
