@@ -71,7 +71,7 @@ Description
 - None
 
 ### Allies
-- [[Characters]] or [[Organisations]]
+- [[Lazarus Illondris-Maladomini]]
 
 ### Enemies
 - [[Characters]] or [[Organisations]]

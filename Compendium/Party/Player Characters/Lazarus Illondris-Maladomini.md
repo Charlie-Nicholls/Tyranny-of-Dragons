@@ -67,7 +67,7 @@ action: {type: open, link: https://www.dndbeyond.com/characters/141809379, newTa
 ### Description
 Lazarus was born of the union of an evil red dragon and devilish succubus, both taken human form. Whether or not they were aware of each other's nature when he was conceived is unknown. But neither wanted anything to do with him so gave him to the [[Cult of the Dragon]] as an infant to be raised. His mother's infernal influence caused him to be born a tiefling, while his father's would later manifest as he grew draconic scales across his chest and arms and gained access to draconic sorcery. His upbringing was particularly traumatic, regularly witness to sacrifices and victim to the anger of the cult's members. The scars of which he now bears on his face, under his shirt and in his broken left horn. When his draconic powers manifested, he become powerful enough to escape and forge a life of his own. 
 
-This upbringing has left him with an a warped sense of morality, he wants to become a hero, but doesn't always understand what being good actually entails. He is determined to thwart the plans of, and ultimately destroy, the [[Cult of the Dragon]] as revenge and is prone to rage and rash decision making in their presence. Lazarus revels in the adoration of others, and loves to relay the stories of his adventures, with maybe some embellishment if needed - but it's all basically true, he promises. To which end he has hired a bard, [[James' Character - Name TBD]], to accompany him and help increase his level of fame. He won't admit this, especially to himself, but what he really wants is to get the attention of his parents, to anger them by getting a reputation as a hero such that they finally have to acknowledge him. Long term he'd also really quite like to become immortal, he doesn't really know how one would do this or have any plans for his immortality; he just quite likes the idea of it.
+This upbringing has left him with an a warped sense of morality, he wants to become a hero, but doesn't always understand what being good actually entails. He is determined to thwart the plans of, and ultimately destroy, the [[Cult of the Dragon]] as revenge and is prone to rage and rash decision making in their presence. Lazarus revels in the adoration of others, and loves to relay the stories of his adventures, with maybe some embellishment if needed - but it's all basically true, he promises. To which end he has hired a bard, [[Kotash]], to accompany him and help increase his level of fame. He won't admit this, especially to himself, but what he really wants is to get the attention of his parents, to anger them by getting a reputation as a hero such that they finally have to acknowledge him. Long term he'd also really quite like to become immortal, he doesn't really know how one would do this or have any plans for his immortality; he just quite likes the idea of it.
 
 ### Motivations
 - Earn a reputation for heroism to annoy and get attention from his evil parents
@@ -78,7 +78,7 @@ This upbringing has left him with an a warped sense of morality, he wants to bec
 - Draconic Sorcery
 
 ### Allies
-- [[James' Character - Name TBD]]
+- [[Kotash]]
 
 ### Enemies
 - [[Cult of the Dragon]]
