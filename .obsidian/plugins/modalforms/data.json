@@ -694,6 +694,36 @@
         "createCommand": true,
         "parsedTemplate": []
       }
+    },
+    {
+      "title": "Add New Lore",
+      "name": "LORE",
+      "version": "1",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name:",
+          "description": "",
+          "input": {
+            "type": "text",
+            "allowUnknownValues": false,
+            "hidden": false
+          },
+          "isRequired": true
+        },
+        {
+          "name": "Type",
+          "label": "Type:",
+          "description": "",
+          "input": {
+            "type": "dataview",
+            "allowUnknownValues": false,
+            "hidden": false,
+            "query": "['Lore','Plan']"
+          },
+          "isRequired": false
+        }
+      ]
     }
   ]
 }

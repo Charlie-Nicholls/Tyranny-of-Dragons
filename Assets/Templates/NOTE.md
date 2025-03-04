@@ -67,7 +67,7 @@ ___
 >> - [[Lazarus Illondris-Maladomini]]
 >> - [[Kotash]]
 >> - [[Azane]]
->> - [[]]
+>> - [[Kiet]]
 > 
 >> [!info|flex]- NPCS:
 >> - [[Characters]]
@@ -79,9 +79,6 @@ ___
 >> - [[Quests]]
 
 ---
-
-### Plan
-Plan for the session here.
 
 ### Notes
 - Live notes from the session here.

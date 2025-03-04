@@ -28,8 +28,8 @@ ___
 >> | Stat | Score |
 >> | ---- | :----: |
 >> | :LiEye: Passive Perception | 11 |
->> | :FasMagnifyingGlass: Passive Investigation | 10 |
->> | :RiSpeakFill: Passive Insight | 11 |
+>> | :FasMagnifyingGlass: Passive Investigation | ? |
+>> | :RiSpeakFill: Passive Insight | ? |
 >> | :FasShield: Armour Class | `=this.ac` |
 >> | :FasHeart: Max Hit Points | `=this.hp` |
 >
