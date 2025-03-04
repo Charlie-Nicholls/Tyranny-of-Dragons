@@ -56,7 +56,7 @@ label: Character Sheet
 icon: link
 tooltip: external character sheet
 style: default
-action: {type: open, link: https://www.dndbeyond.com/characters/141809379, newTab: true}
+action: {type: open, link: https://www.dndbeyond.com/characters/142643410, newTab: true}
 
 # Profile
 

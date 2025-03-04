@@ -6,6 +6,8 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiNotepadText",
+      "FasBurst",
       "FasMusic",
       "LiSword",
       "LiCurrency",
@@ -13,9 +15,7 @@
       "FasHand",
       "FasDragon",
       "FasPerson",
-      "FasCity",
-      "RiTestTubeFill",
-      "FasFireFlameCurved"
+      "FasCity"
     ],
     "recentlyUsedIconsSize": 10,
     "rules": [],
@@ -89,5 +89,7 @@
   "Compendium/Lore/Organizations/Order of the Gauntlet.md": "LiSword",
   "Compendium/NPCs/Waterdeep/Savra Belabranta.md": "FasPerson",
   "Compendium/NPCs/Waterdeep/Jarlaxle Baerne.md": "FasPerson",
-  "Compendium/Party/Player Characters/Kotash.md": "FasMusic"
+  "Compendium/Party/Player Characters/Kotash.md": "FasMusic",
+  "Compendium/Party/Player Characters/Kiet.md": "FasBurst",
+  "Session Notes/Session 01.md": "LiNotepadText"
 }

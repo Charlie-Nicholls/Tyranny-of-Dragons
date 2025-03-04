@@ -53,7 +53,7 @@ type: notes
 date: <% date %>
 locations:
 <% location ? location : ' - '%>
-alias: "<% title %>"
+alias: "<% title ? title : 'TBD'%>"
 displayLink: "[[<% name %>]]"
 ---
 

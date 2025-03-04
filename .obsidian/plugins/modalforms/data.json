@@ -352,7 +352,7 @@
           "name": "Title",
           "label": "Title:",
           "description": "",
-          "isRequired": true,
+          "isRequired": false,
           "input": {
             "type": "text",
             "hidden": false
@@ -377,7 +377,8 @@
             "type": "multiselect",
             "source": "dataview",
             "query": "dv.pages('\"Compendium/Atlas\"').file.name",
-            "allowUnknownValues": true
+            "allowUnknownValues": true,
+            "multi_select_options": []
           }
         }
       ],
