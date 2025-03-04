@@ -39,6 +39,9 @@ ___
 ### Description
 Description
 
+### Appearances
+- Summary of Appearances
+
 ### Motivations
 - List of Motivations
 
