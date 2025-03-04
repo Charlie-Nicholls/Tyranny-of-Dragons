@@ -64,7 +64,10 @@ ___
 
 > [!column|flex 3]
 >>[!info|flex]- PC's:
->> - [[Player Characters]]
+>> - [[Lazarus Illondris-Maladomini]]
+>> - [[Kotash]]
+>> - [[Azane]]
+>> - [[]]
 > 
 >> [!info|flex]- NPCS:
 >> - [[Characters]]

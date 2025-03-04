@@ -11,7 +11,7 @@ cover: /Assets/Images/Party/imgLazarus.png
 displayLink: "[[Lazarus Illondris-Maladomini]]"
 alias: Lazarus
 share_link: https://share.note.sx/4yktmnzc#UjiKTvT6HrnBgXV36hlSeuXPtTFNoF1AtUUvsdyaeAs
-share_updated: 2025-02-25T15:32:48+00:00
+share_updated: 2025-03-04T18:43:59+00:00
 ---
 
 ###### Lazarus Illondris-Maladomini
