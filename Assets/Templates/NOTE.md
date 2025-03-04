@@ -31,7 +31,7 @@ const date = result.Date.value;
 const title = result.Title.value;
 const location = result.Location.value ? result.Location.value.map(value => `- "[[${value}]]"`).join("\n") : '';
 const number = nextNumber();
-const name = `Session ${number} (${date})`;
+const name = `Session ${number}`;
 
 if (result.status === 'ok') {
 
