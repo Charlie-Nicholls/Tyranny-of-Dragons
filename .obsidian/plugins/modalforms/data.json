@@ -644,7 +644,7 @@
           "isRequired": false,
           "input": {
             "type": "dataview",
-            "query": "['Aarakocra','Aasimar','Bugbear','Centaur','Changeling','Dragonborn','Dwarf','Elf','Fairy','Firbolg','Genasi','Gnome','Goblin','Goliath','Grung','Half-Elf','Halfling','Half-Elf','Half-Orc','Harengon','Hobgoblin','Human','Kalashtar','Kenku','Kobold','Leonin','Lizardfolk','Loxodon','Minotaur','Orc','Owlfolk','Satyr','Shifter','Simic Hybrid','Tabaxi','Thri-Keen','Tiefling','Tortle','Triton','Vedalken','Verdan','Warforged','Yuan-Ti Pureblood']"
+            "query": "['Aarakocra','Aasimar','Bugbear','Centaur','Changeling','Dragonborn','Dwarf','Elf','Fairy','Firbolg','Genasi','Gnome','Goblin','Goliath','Grung','Halfling','Half-Elf','Half-Orc','Harengon','Hobgoblin','Human','Kalashtar','Kenku','Kobold','Leonin','Lizardfolk','Loxodon','Minotaur','Orc','Owlfolk','Satyr','Shifter','Simic Hybrid','Tabaxi','Thri-Keen','Tiefling','Tortle','Triton','Vedalken','Verdan','Warforged','Yuan-Ti Pureblood']"
           }
         },
         {

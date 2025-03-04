@@ -138,6 +138,3 @@ Description
 
 ### Enemies
 - [[Characters]] or [[Organisations]]
-
-#### Secrets
-- None

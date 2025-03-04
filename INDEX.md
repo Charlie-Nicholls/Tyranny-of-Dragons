@@ -3,7 +3,7 @@ cssClasses: index
 displayLink: "[[INDEX]]"
 ---
 
-###### <span class="head">Campaign Name</span> 
+###### <span class="head">Tyranny of Dragons</span> 
 ![[compendium.jpg|banner]]
  
 ```dataviewjs
