@@ -8,7 +8,7 @@ displayLink: "[[Ballad of Lazarus]]"
 ___
 
 > [!recite|clean no-t]
->	Introduction for players
+>	A song for the great and noble hero Lazarus Illondris-Maladomini
 >^IntroText
 
 ### Description

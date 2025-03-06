@@ -87,7 +87,7 @@ ___
 # Profile
 
 > [!recite|clean no-t]
->	Introduction for players
+>	One line summary
 >^IntroText
 
 ### Description
@@ -100,13 +100,10 @@ Description
 - List of Motivations
 
 ### Magic Items / Abilities
-- None
+- Unknown
 
 ### Allies
 - [[Characters]] or [[Organisations]]
 
 ### Enemies
 - [[Characters]] or [[Organisations]]
-
-### Appearances
-- 

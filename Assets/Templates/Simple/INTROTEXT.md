@@ -1,3 +1,3 @@
 > [!recite|clean no-t]
->	Introduction for players
+>	One line description
 >^IntroText

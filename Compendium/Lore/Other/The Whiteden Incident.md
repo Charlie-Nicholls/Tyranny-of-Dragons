@@ -23,10 +23,10 @@ FROM "Compendium/NPCs" AND [[#]]
 >^InfoBox
 
 > [!recite|clean no-t]
->	Introduction for players
+>	We don't talk about the Whiteden incident
 >^IntroText
 	
 ### Description
-Description of the personal event, The Whiteden Incident.
+The Whiteden incident occurred prior to [[Session 01]] and is the reason [[Lazarus Illondris-Maladomini]] and [[Kotash]] were required to do penance and instructed by [[Ezme Flameguard]] to [[Rescue Alsacia]]. Exactly what happened remains unexplained, but what is clear is that it was [[Lazarus Illondris-Maladomini|Lazarus]]'s fault and probably involved fire.
 
 

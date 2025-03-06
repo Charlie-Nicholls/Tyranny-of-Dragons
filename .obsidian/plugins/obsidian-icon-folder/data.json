@@ -90,7 +90,6 @@
   "Compendium/NPCs/Waterdeep/Savra Belabranta.md": "FasPerson",
   "Compendium/NPCs/Waterdeep/Jarlaxle Baerne.md": "FasPerson",
   "Compendium/Party/Player Characters/Kotash.md": "FasMusic",
-  "Compendium/Party/Player Characters/Kiet.md": "FasBurst",
   "Session Notes/Session 01.md": "LiNotepadText",
   "Compendium/Lore/Other": "RiQuestionFill",
   "Compendium/Lore/Other/Ballad of Lazarus.md": "FasMusic",
@@ -101,5 +100,6 @@
   "Compendium/Lore/Organizations/Zhentarim.md": "FasStaffSnake",
   "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Dark Forest": "FasTree",
   "Compendium/Lore/Other/The Whiteden Incident.md": "FasFireFlameCurved",
-  "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Waterdeep/North Ward/Primordial Brews": "RiBeerFill"
+  "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Waterdeep/North Ward/Primordial Brews": "RiBeerFill",
+  "Compendium/Party/Player Characters/Keit.md": "FasBurst"
 }

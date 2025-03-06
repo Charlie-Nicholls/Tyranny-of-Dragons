@@ -4,11 +4,11 @@ level: 6
 ac: 10
 hp: 10
 modifier: 0
-race: "Human"
-class: "Warlock"
-subClass: "Fiend"
-cover: "/Assets/Images/Portrait.jpg"
-displayLink: "[[Kiet]]"
+race: Human
+class: Warlock
+subClass: Fiend
+cover: /Assets/Images/Portrait.jpg
+displayLink: "[[Keit]]"
 ---
 
 ###### Kiet
@@ -58,7 +58,7 @@ action: {type: open, link: undefined, newTab: true}
 # Profile
 
 > [!recite|clean no-t]
->	Introduction for players
+>	One line description
 >^IntroText
 	
 ### Description

@@ -33,26 +33,23 @@ ___
 # Profile
 
 > [!recite|clean no-t]
->	Introduction for players
+>	Kidnapped noble
 >^IntroText
 
 ### Description
-Description
+Noblewoman who was kidnapped while travelling in the [[Dark Forest]] by a Drow trafficking operation. Her brother was found dead at the scene.
 
 ### Appearances
-- Summary of Appearances
+[[Session 01]] (mentioned) - [[The Party]] are told she was kidnapped by a Drow trafficking operation in the [[Dark Forest]] and told to [[Rescue Alsacia|Rescue her]].
 
 ### Motivations
 - List of Motivations
 
 ### Magic Items / Abilities
-- None
+- Unknown
 
 ### Allies
 - [[Characters]] or [[Organisations]]
 
 ### Enemies
-- [[Characters]] or [[Organisations]]
-
-### Appearances
-- 
+- Drow traffickers

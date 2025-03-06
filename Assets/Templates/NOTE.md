@@ -67,7 +67,7 @@ ___
 >> - [[Lazarus Illondris-Maladomini]]
 >> - [[Kotash]]
 >> - [[Azane]]
->> - [[Kiet]]
+>> - [[Keit]]
 > 
 >> [!info|flex]- NPCS:
 >> - [[Characters]]

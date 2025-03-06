@@ -3,7 +3,7 @@ type: notes
 date: 2025-03-04
 locations:
  - 
-alias: "Dances With Horses"
+alias: "Flying Snake Charming and Horse Trotting"
 displayLink: "[[Session 01]]"
 ---
 
@@ -17,7 +17,7 @@ ___
 >> - [[Lazarus Illondris-Maladomini]]
 >> - [[Kotash]]
 >> - [[Azane]]
->> - [[Kiet]]
+>> - [[Keit]]
 > 
 >> [!info|flex]- NPCS:
 >> - [[Alsacia Blaggard]] (mentioned)
@@ -36,7 +36,7 @@ ___
 
 ### Notes
 - [[Flaming Fist]] ask [[Azane]] to to help them out, assigns the rest of us to help them
-- [[Kiet]] is fairly anonymous, moves smoothly
+- [[Keit]] is fairly anonymous, moves smoothly
 - [[Ezme Flameguard]], handler, [[Flaming Fist]] tattoo on her neck which is unusual
 - This quest will be the 13th verse of the [[Ballad of Lazarus]]
 - smuggling operation, moving things from the city 
@@ -57,8 +57,15 @@ ___
 - [[Kotash]] dances to the horses
 - disembowelled drow, torn open at the bottom of a tree. animals did it, 2 large creatures, pecked open
 - Attacked by Owl Bears
+- I still have concentration for Dragon Breath up
 
 ### Summary
-- Summary of the important points from the session here.
+During a surprisingly busy morning in [[Primordial Brews]], four adventurers were asked to meet by [[Ezme Flameguard]] for an assignment from the [[Flaming Fist]]. [[Azane]], as one of the owners of the bar was already there as a mysterious figure shrouded in a dark coat floated through the door nondescriptly and took a seat. Less subtly a half-orc bard strolled in strumming a lute, they would later introduce themselves as [[Kotash]] but were then busy introducing [[Lazarus Illondris-Maladomini]], who was quick behind her, bursting through the door and loudly introducing themselves to mixed reception. The cloaked figure introduced themselves as [[Keit]] - note: not Keith - and the four began to talk, with [[Azane]] quickly deciding [[Lazarus Illondris-Maladomini|Lazarus]] was only to be served non-alcoholic beverages.
+
+[[Ezme Flameguard]] arrived and offered the group a choice between two missions. The first was to infiltrate a smuggling operation that had been moving items around the [[Sword Coast]]. Most notably a solid gold [[Dragon Face Mask]], stolen from [[Baldurs Gate]], that used to be used by cults of [[Tiamat]]. The second was to rescue [[Alsacia Blaggard]] from a group of drow traffickers who'd ambushed her caravan in the [[Dark Forest]], killing her brother. This wasn't the first such abduction but it was the highest profile and the asked for ransom was absurd. [[Lazarus Illondris-Maladomini|Lazarus]] clearly recognised the [[Dragon Face Mask]] and was keen to pursue this option, but was ultimately out voted.
+
+The journey to the [[Dark Forest]] was initially uneventful, with the most notable event being [[Azane]] receiving some replacement, and fireproof, eyebrows which [[Kotash]] suggested should be put on upside down and to which [[Azane]] immediately complied. A few days in the party noticed a winged snake, like that used by the [[Zhentarim]] was following them. Deciding they didn't want to attack the snake, attempts to parlay with it were made by [[Kotash]] using the power of a half flirtatious half platonic dance that proved half successful - putting the snake in a good mood, but not getting rid of it. So she instead used *suggestion* to get it to fly away.
+
+The journey deeper into the forest was signified by an increase in the density of webs in the area and a decrease in the light level. They eventually found the caravan in a scene that fitted well the description of events provided by [[Ezme Flameguard|Ezme]], and a pot of gold divided unevenly amongst the party, and then on [[Keit]]'s request, slightly less unevenly. To move with some stealth they decided to abandon their own caravan and horses. [[Kotash]] once again pulled out their animal communication dancing skills to calm the horses with great effect. Following the trail of the drow, travelling stealthily to the sound of [[Kotash]] playing the Mission Impossible theme, lead to a body that had had its guts pecked out. [[Lazarus Illondris-Maladomini|Lazarus]] inspected the body recklessly, finding acid burns that enticed [[Azane]] to come over and be jumped by a pair of owlbears. 
 
 

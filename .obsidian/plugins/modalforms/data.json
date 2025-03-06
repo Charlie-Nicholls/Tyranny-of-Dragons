@@ -377,8 +377,7 @@
             "type": "multiselect",
             "source": "dataview",
             "query": "dv.pages('\"Compendium/Atlas\"').file.name",
-            "allowUnknownValues": true,
-            "multi_select_options": []
+            "allowUnknownValues": true
           }
         }
       ],
@@ -698,32 +697,29 @@
     {
       "title": "Add New Lore",
       "name": "LORE",
-      "version": "1",
       "fields": [
         {
           "name": "Name",
           "label": "Name:",
           "description": "",
+          "isRequired": true,
           "input": {
             "type": "text",
-            "allowUnknownValues": false,
             "hidden": false
-          },
-          "isRequired": true
+          }
         },
         {
           "name": "Type",
           "label": "Type:",
           "description": "",
+          "isRequired": false,
           "input": {
             "type": "dataview",
-            "allowUnknownValues": false,
-            "hidden": false,
             "query": "['Lore','Plan']"
-          },
-          "isRequired": false
+          }
         }
-      ]
+      ],
+      "version": "1"
     }
   ]
 }

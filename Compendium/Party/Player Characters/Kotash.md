@@ -58,7 +58,7 @@ action: {type: open, link: https://www.dndbeyond.com/characters/142641729, newTa
 # Profile
 
 > [!recite|clean no-t]
->	Introduction for players
+>	One line description
 >^IntroText
 	
 ### Description

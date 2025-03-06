@@ -14,7 +14,7 @@ ___
 >
 > | Type | Stat |
 > | ---- | ---- |
-> | :FasBriefcase: Job |   |
+> | :FasBriefcase: Job | Mercenary |
 > | :FasVenusMars: Gender | Female |
 > | :FasUser: Race | Human |
 >
@@ -33,26 +33,23 @@ ___
 # Profile
 
 > [!recite|clean no-t]
->	Introduction for players
+>	Mercenary for the Flaming Fist
 >^IntroText
 
 ### Description
-Description
+Works for the [[Flaming Fist]]. Has a tattoo of the fist on her neck which is unusual.
 
 ### Appearances
-- Summary of Appearances
+[[Session 01]] - Tells [[Azane]], [[Lazarus Illondris-Maladomini|Lazarus]], [[Kotash]] and [[Keit]] to meet at [[Primordial Brews]]. Appears to tell them to [[Rescue Alsacia]] and deal with the drow traffickers who took her. 
 
 ### Motivations
 - List of Motivations
 
 ### Magic Items / Abilities
-- None
+- Unknown
 
 ### Allies
-- [[Characters]] or [[Organisations]]
+- [[Flaming Fist]]
 
 ### Enemies
-- [[Characters]] or [[Organisations]]
-
-### Appearances
-- 
+- Drow Traffickers

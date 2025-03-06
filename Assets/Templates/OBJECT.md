@@ -79,7 +79,7 @@ FROM "Compendium/NPCs" AND [[#]] OR "Compendium/Party/Player Characters" AND [[#
 >^InfoBox
 
 > [!recite|clean no-t]
->	Introduction for players
+>	One line description
 >^IntroText
 
 ### Description
