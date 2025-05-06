@@ -37,10 +37,10 @@ ___
 >^IntroText
 
 ### Description
-Noblewoman who was kidnapped while travelling in the [[Dark Forest]] by a Drow trafficking operation. Her brother was found dead at the scene.
+Noblewoman who was kidnapped while travelling in the [[Deep Woods]] by a Drow trafficking operation. Her brother was found dead at the scene.
 
 ### Appearances
-[[Session 01]] (mentioned) - [[The Party]] are told she was kidnapped by a Drow trafficking operation in the [[Dark Forest]] and told to [[Rescue Alsacia|Rescue her]].
+[[Session 01]] (mentioned) - [[The Party]] are told she was kidnapped by a Drow trafficking operation in the [[Deep Woods]] and told to [[Rescue Alsacia|Rescue her]].
 
 ### Motivations
 - List of Motivations

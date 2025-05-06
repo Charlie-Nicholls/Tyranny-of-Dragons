@@ -21,13 +21,13 @@ Verse 2: [[Lazarus Illondris-Maladomini#Description|Lazarus Runs Away]]
 
 Verse 3: 
 
-Verse 4: 
+Verse 4: sea shanty. underground
 
 Verse 5: 
 
-Verse 6: 
+Verse 6: sea shanty, far inland
 
-Verse 7: 
+Verse 7: sea shanty
 
 Verse 8: 
 

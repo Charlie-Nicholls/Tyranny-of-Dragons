@@ -98,9 +98,13 @@
   "Compendium/NPCs/Waterdeep/Lif.md": "FasPerson",
   "Compendium/Lore/Organizations/Flaming Fist.md": "FasHandFist",
   "Compendium/Lore/Organizations/Zhentarim.md": "FasStaffSnake",
-  "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Dark Forest": "FasTree",
   "Compendium/Lore/Other/The Whiteden Incident.md": "FasFireFlameCurved",
   "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Waterdeep/North Ward/Primordial Brews": "RiBeerFill",
   "Compendium/Party/Player Characters/Keit.md": "FasBurst",
-  "Compendium/Lore/Objects/Dragon Face Mask.md": "FasDragon"
+  "Compendium/Lore/Objects/Dragon Face Mask.md": "FasDragon",
+  "Session Notes/Session 02.md": "LiNotepadText",
+  "Session Notes/Session 03.md": "LiNotepadText",
+  "Compendium/Atlas/Material Plane/Toril/Faerûn/Western Heartlands/Sword Coast/Deep Woods": "FasTree",
+  "Session Notes/Session 04.md": "LiNotepadText",
+  "Session Notes/Session 05.md": "LiNotepadText"
 }

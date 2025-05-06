@@ -2,7 +2,7 @@
 type: quest
 target: "[[The Party]]"
 locations:
- - "[[Dark Forest]]"
+  - "[[Deep Woods]]"
 displayLink: "[[Rescue Alsacia]]"
 status: Ongoing
 ---

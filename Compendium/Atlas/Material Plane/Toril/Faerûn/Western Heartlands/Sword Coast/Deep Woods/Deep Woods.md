@@ -1,12 +1,12 @@
 ---
 type: locale
 locations:
- - "[[Sword Coast]]"
-displayLink: "[[Dark Forest]]"
+  - "[[Sword Coast]]"
+displayLink: "[[Deep Woods]]"
 ---
 
 ![[banner.jpg|banner]]
-###### Dark Forest
+###### Deep Woods
 <span class="sub2">:FasTree: Forest</span>
 
 ---

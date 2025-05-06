@@ -51,6 +51,7 @@ _%>
 ---
 type: notes
 date: <% date %>
+number: <% number %>
 locations:
 <% location ? location : ' - '%>
 alias: "<% title ? title : 'TBD'%>"
