@@ -1,15 +1,15 @@
 ---
 type: notes
-date: 2025-04-29
-number: 05
+date: 2025-06-09
+number: 08
 locations:
  - 
-alias: "Bad"
-displayLink: "[[Session 05]]"
+alias: "TBD"
+displayLink: "[[Session 08]]"
 ---
 
 ![[session.png|banner]]
-###### Session 05: `=this.alias`
+###### Session 08: `=this.alias`
 <span class="sub2">:FasCalendar: `=this.date`</span>
 ___
 
@@ -32,7 +32,9 @@ ___
 ---
 
 ### Notes
-- Apostle of the Green
+- Biathlon Barry
+- Captain Caprice
+- Fat Dragon figurehead
 
 ### Summary
 - Summary of the important points from the session here.

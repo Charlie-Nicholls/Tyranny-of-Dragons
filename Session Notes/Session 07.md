@@ -1,15 +1,15 @@
 ---
 type: notes
-date: 2025-04-29
-number: 05
+date: 2025-05-19
+number: 07
 locations:
  - 
-alias: "Bad"
-displayLink: "[[Session 05]]"
+alias: "Lazarus breaks"
+displayLink: "[[Session 07]]"
 ---
 
 ![[session.png|banner]]
-###### Session 05: `=this.alias`
+###### Session 07: `=this.alias`
 <span class="sub2">:FasCalendar: `=this.date`</span>
 ___
 
@@ -21,18 +21,22 @@ ___
 >> - [[Keit]]
 > 
 >> [!info|flex]- NPCS:
->> - [[Characters]]
+>> - [[Lif]]
 >
 >> [!example|flex]- LOCATIONS:
->> - [[Locations]]
+>> - [[Waterdeep]]
+>> - [[Primordial Brews]]
 >
 >> [!important|flex]- QUESTS:
->> - [[Quests]]
+>> - [[Ice Race]]
 
 ---
 
 ### Notes
-- Apostle of the Green
+- lazarus discloses backstory
+- cultist shows up
+- lazarus kills him & fakes his death
+- Xtceww
 
 ### Summary
 - Summary of the important points from the session here.

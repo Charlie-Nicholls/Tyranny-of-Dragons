@@ -6760,10 +6760,10 @@ var NotAFileError = class extends Error {
     this._tag = "NotAFileError";
   }
 };
-function resolve_tfolder(folder_str, app2) {
+function resolve_tfolder(folder_str, app) {
   return pipe2(
     (0, import_obsidian.normalizePath)(folder_str),
-    (path) => app2.vault.getAbstractFileByPath(path),
+    (path) => app.vault.getAbstractFileByPath(path),
     Either_exports.fromNullable(new FolderDoesNotExistError(`Folder "${folder_str}" doesn't exist`)),
     Either_exports.flatMap((file) => {
       if (!(file instanceof import_obsidian.TFolder)) {
@@ -6773,10 +6773,10 @@ function resolve_tfolder(folder_str, app2) {
     })
   );
 }
-function resolve_tfile(file_str, app2) {
+function resolve_tfile(file_str, app) {
   return pipe2(
     (0, import_obsidian.normalizePath)(file_str),
-    (path) => app2.vault.getAbstractFileByPath(path),
+    (path) => app.vault.getAbstractFileByPath(path),
     Either_exports.fromNullable(FileDoesNotExistError.of(file_str)),
     Either_exports.flatMap((file) => {
       if (!(file instanceof import_obsidian.TFile)) {
@@ -6786,9 +6786,9 @@ function resolve_tfile(file_str, app2) {
     })
   );
 }
-function get_tfiles_from_folder(folder_str, app2) {
+function get_tfiles_from_folder(folder_str, app) {
   return pipe2(
-    resolve_tfolder(folder_str, app2),
+    resolve_tfolder(folder_str, app),
     Either_exports.flatMap((folder) => {
       const files = [];
       import_obsidian.Vault.recurseChildren(folder, (file) => {
@@ -6847,9 +6847,9 @@ function extract_tags(cache) {
     Array_exports.flatten
   );
 }
-function enrich_tfile(file, app2) {
+function enrich_tfile(file, app) {
   var _a;
-  const metadata = app2.metadataCache.getCache(file.path);
+  const metadata = app.metadataCache.getCache(file.path);
   return {
     ...file,
     frontmatter: (_a = metadata == null ? void 0 : metadata.frontmatter) != null ? _a : {},
@@ -6861,10 +6861,10 @@ function enrich_tfile(file, app2) {
     )
   };
 }
-function file_exists(file_str, app2) {
+function file_exists(file_str, app) {
   return pipe2(
     (0, import_obsidian.normalizePath)(file_str),
-    (path) => app2.vault.getAbstractFileByPath(path),
+    (path) => app.vault.getAbstractFileByPath(path),
     (value) => value !== null
   );
 }
@@ -6883,8 +6883,8 @@ var FileError = class extends Error {
 
 // src/core/files/FileServiceObsidian.ts
 var ObsidianFileService = class {
-  constructor(app2, logger3) {
-    this.app = app2;
+  constructor(app, logger3) {
+    this.app = app;
     this.logger = logger3;
     this.createFile = (fullPath, content) => TaskEither_exports2.tryCatch(
       () => this.app.vault.createBinary(fullPath, content),
@@ -8045,7 +8045,7 @@ function instance3($$self, $$props, $$invalidate) {
   let { form } = $$props;
   $$subscribe_form();
   let { field } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   function generateContent(parent, form2) {
     pipe2(functionParsed, fromEither3, chainW2((fn) => pipe2(form2.fields, filterMap5((field2) => field2.value), (fields) => fn(fields, dv, parent))), match6(
       (error2) => {
@@ -8066,13 +8066,13 @@ function instance3($$self, $$props, $$invalidate) {
     if ("field" in $$props2)
       $$invalidate(3, field = $$props2.field);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*app, _a*/
     48) {
       $:
-        dv = $$invalidate(5, _a = app2.plugins.plugins.dataview) === null || _a === void 0 ? void 0 : _a.api;
+        dv = $$invalidate(5, _a = app.plugins.plugins.dataview) === null || _a === void 0 ? void 0 : _a.api;
     }
     if ($$self.$$.dirty & /*field*/
     8) {
@@ -8080,7 +8080,7 @@ function instance3($$self, $$props, $$invalidate) {
         functionParsed = parseFunctionBody(field.body, "form", "dv", "el");
     }
   };
-  return [form, $form, generateContent, field, app2, _a];
+  return [form, $form, generateContent, field, app, _a];
 }
 var DocumentBlock = class extends SvelteComponent {
   constructor(options) {
@@ -8806,14 +8806,14 @@ function sandboxedDvQuery(query) {
   if (!query.startsWith("return")) {
     query = "return " + query;
   }
-  const parsed = parseFunctionBody(query, "dv", "pages");
-  return (dv, pages) => pipe2(
+  const parsed = parseFunctionBody(query, "dv", "pages", "form");
+  return (dv, pages, form) => pipe2(
     parsed,
     fromEither3,
     mapLeft2(
       (err) => new ModalFormError("Error evaluating the dataview query", err.message)
     ),
-    flatMap6((fn) => fn(dv, pages)),
+    flatMap6((fn) => fn(dv, pages, form)),
     flatMap6((result2) => {
       if (!Array.isArray(result2)) {
         return left5(
@@ -8824,16 +8824,16 @@ function sandboxedDvQuery(query) {
     })
   );
 }
-function executeSandboxedDvQuery(query, app2, logger3 = log_error) {
+function executeSandboxedDvQuery(query, app, form = {}, logger3 = log_error) {
   var _a;
-  const dv = (_a = app2.plugins.plugins.dataview) == null ? void 0 : _a.api;
+  const dv = (_a = app.plugins.plugins.dataview) == null ? void 0 : _a.api;
   if (!dv) {
     logger3(new ModalFormError("Dataview plugin is not enabled"));
     return of6([]);
   }
   const pages = dv.pages;
   return pipe2(
-    query(dv, pages),
+    query(dv, pages, form),
     getOrElse4((e) => {
       logger3(e);
       return of6([]);
@@ -8855,19 +8855,36 @@ function createRegexFromInput(input) {
 
 // src/suggesters/suggestFromDataview.ts
 var DataviewSuggest = class extends import_obsidian5.AbstractInputSuggest {
-  constructor(inputEl, dvQuery, app2) {
-    super(app2, inputEl);
+  constructor(inputEl, dvQuery, app) {
+    super(app, inputEl);
     this.inputEl = inputEl;
-    this.app = app2;
+    this.app = app;
     this.sandboxedQuery = sandboxedDvQuery(dvQuery);
+    this.formData = none2;
+  }
+  /**
+   * Update the form data used in the dataview query.
+   * This is called whenever the form data changes.
+   */
+  updateFormData(newFormData) {
+    this.formData = some3(newFormData);
+  }
+  getQueryResult() {
+    return pipe2(
+      this.formData,
+      fold2(
+        () => executeSandboxedDvQuery(this.sandboxedQuery, this.app, {}),
+        (formData) => executeSandboxedDvQuery(this.sandboxedQuery, this.app, formData)
+      )
+    );
   }
   getSuggestions(inputStr) {
-    const result2 = executeSandboxedDvQuery(this.sandboxedQuery, this.app);
-    if (!inputStr) {
-      return result2();
-    }
-    const regex = createRegexFromInput(inputStr);
-    return result2().then((res) => res.filter((r) => regex.test(r)));
+    return pipe2(
+      this.getQueryResult(),
+      map6(
+        (results) => inputStr ? results.filter((r) => createRegexFromInput(inputStr).test(r)) : results
+      )
+    )();
   }
   renderSuggestion(option2, el) {
     el.setText(option2);
@@ -8903,7 +8920,7 @@ function create_default_slot(ctx) {
             input_1,
             "input",
             /*input_1_input_handler*/
-            ctx[7]
+            ctx[8]
           ),
           action_destroyer(dataviewSuggest_action = /*dataviewSuggest*/
           ctx[4].call(null, input_1))
@@ -8977,7 +8994,7 @@ function create_fragment6(ctx) {
         obsidianinputwrapper_changes.description = /*field*/
         ctx2[0].description;
       if (dirty & /*$$scope, $value*/
-      264) {
+      1032) {
         obsidianinputwrapper_changes.$$scope = { dirty, ctx: ctx2 };
       }
       obsidianinputwrapper.$set(obsidianinputwrapper_changes);
@@ -9004,10 +9021,20 @@ function instance6($$self, $$props, $$invalidate) {
   let { input } = $$props;
   let { value } = $$props;
   $$subscribe_value();
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { errors } = $$props;
+  let { form } = $$props;
+  let suggester = null;
   function dataviewSuggest(el) {
-    new DataviewSuggest(el, input.query, app2);
+    suggester = new DataviewSuggest(el, input.query, app);
+    const unsubscribe = form.subscribe((formData) => {
+      const formValues = pipe2(formData.fields, filterMap5((field2) => field2.value));
+      suggester === null || suggester === void 0 ? void 0 : suggester.updateFormData(formValues);
+    });
+    onDestroy(() => {
+      unsubscribe();
+      suggester = null;
+    });
   }
   function input_1_input_handler() {
     $value = this.value;
@@ -9021,9 +9048,11 @@ function instance6($$self, $$props, $$invalidate) {
     if ("value" in $$props2)
       $$subscribe_value($$invalidate(1, value = $$props2.value));
     if ("app" in $$props2)
-      $$invalidate(6, app2 = $$props2.app);
+      $$invalidate(6, app = $$props2.app);
     if ("errors" in $$props2)
       $$invalidate(2, errors = $$props2.errors);
+    if ("form" in $$props2)
+      $$invalidate(7, form = $$props2.form);
   };
   return [
     field,
@@ -9032,7 +9061,8 @@ function instance6($$self, $$props, $$invalidate) {
     $value,
     dataviewSuggest,
     input,
-    app2,
+    app,
+    form,
     input_1_input_handler
   ];
 }
@@ -9044,7 +9074,8 @@ var InputDataview = class extends SvelteComponent {
       input: 5,
       value: 1,
       app: 6,
-      errors: 2
+      errors: 2,
+      form: 7
     });
   }
 };
@@ -9053,10 +9084,10 @@ var InputDataview_default = InputDataview;
 // src/suggesters/suggestFolder.ts
 var import_obsidian6 = require("obsidian");
 var FolderSuggest = class extends import_obsidian6.AbstractInputSuggest {
-  constructor(inputEl, app2, parentFolder) {
-    super(app2, inputEl);
+  constructor(inputEl, app, parentFolder) {
+    super(app, inputEl);
     this.inputEl = inputEl;
-    this.app = app2;
+    this.app = app;
     this.parentFolder = parentFolder;
   }
   getSuggestions(inputStr) {
@@ -9161,11 +9192,11 @@ function instance7($$self, $$props, $$invalidate) {
   let { value } = $$props;
   $$subscribe_value();
   let { parentFolder } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let search_;
   function customizer(setting) {
     setting.addSearch((component) => {
-      new FolderSuggest(component.inputEl, app2, parentFolder);
+      new FolderSuggest(component.inputEl, app, parentFolder);
       $$invalidate(5, search_ = component);
       component.onChange((v) => {
         set_store_value(value, $value = v.trim(), $value);
@@ -9184,7 +9215,7 @@ function instance7($$self, $$props, $$invalidate) {
     if ("parentFolder" in $$props2)
       $$invalidate(3, parentFolder = $$props2.parentFolder);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*search_, $value*/
@@ -9195,7 +9226,7 @@ function instance7($$self, $$props, $$invalidate) {
         }
     }
   };
-  return [field, value, customizer, parentFolder, app2, search_, $value];
+  return [field, value, customizer, parentFolder, app, search_, $value];
 }
 var InputFolder = class extends SvelteComponent {
   constructor(options) {
@@ -10525,9 +10556,9 @@ Fuse.config = Config;
 
 // src/suggesters/suggestFile.ts
 var FileSuggest = class extends import_obsidian8.AbstractInputSuggest {
-  constructor(app2, inputEl, strategy, folder) {
-    super(app2, inputEl);
-    this.app = app2;
+  constructor(app, inputEl, strategy, folder) {
+    super(app, inputEl);
+    this.app = app;
     this.inputEl = inputEl;
     this.strategy = strategy;
     this.folder = folder;
@@ -10728,11 +10759,11 @@ function instance8($$self, $$props, $$invalidate) {
   let { input } = $$props;
   let { value } = $$props;
   $$subscribe_value();
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { errors } = $$props;
   function noteSuggest(el) {
     new FileSuggest(
-      app2,
+      app,
       el,
       {
         renderSuggestion(file) {
@@ -10757,11 +10788,11 @@ function instance8($$self, $$props, $$invalidate) {
     if ("value" in $$props2)
       $$subscribe_value($$invalidate(1, value = $$props2.value));
     if ("app" in $$props2)
-      $$invalidate(6, app2 = $$props2.app);
+      $$invalidate(6, app = $$props2.app);
     if ("errors" in $$props2)
       $$invalidate(2, errors = $$props2.errors);
   };
-  return [field, value, errors, $value, noteSuggest, input, app2, input_1_input_handler];
+  return [field, value, errors, $value, noteSuggest, input, app, input_1_input_handler];
 }
 var InputNote = class extends SvelteComponent {
   constructor(options) {
@@ -11387,8 +11418,8 @@ var MultiSelect_default = MultiSelect;
 // src/suggesters/StringSuggest.ts
 var import_obsidian9 = require("obsidian");
 var StringSuggest = class extends import_obsidian9.AbstractInputSuggest {
-  constructor(inputEl, content, onSelectCb, app2, allowUnknownValues = false) {
-    super(app2, inputEl);
+  constructor(inputEl, content, onSelectCb, app, allowUnknownValues = false) {
+    super(app, inputEl);
     this.inputEl = inputEl;
     this.onSelectCb = onSelectCb;
     this.allowUnknownValues = allowUnknownValues;
@@ -11413,7 +11444,7 @@ var StringSuggest = class extends import_obsidian9.AbstractInputSuggest {
 };
 
 // src/views/components/MultiSelectModel.ts
-async function MultiSelectModel(fieldInput, app2, values) {
+async function MultiSelectModel(fieldInput, app, values) {
   const source = fieldInput.source;
   const removeValue = (value) => values.update(
     (xs) => pipe2(
@@ -11425,7 +11456,7 @@ async function MultiSelectModel(fieldInput, app2, values) {
     case "dataview":
     case "fixed": {
       const remainingOptions = new Set(
-        source === "fixed" ? fieldInput.multi_select_options : await executeSandboxedDvQuery(sandboxedDvQuery(fieldInput.query), app2)()
+        source === "fixed" ? fieldInput.multi_select_options : await executeSandboxedDvQuery(sandboxedDvQuery(fieldInput.query), app)()
       );
       return {
         createInput(element2) {
@@ -11436,7 +11467,7 @@ async function MultiSelectModel(fieldInput, app2, values) {
               remainingOptions.delete(selected);
               values.update((x) => [...x, selected]);
             },
-            app2,
+            app,
             fieldInput.allowUnknownValues
           );
         },
@@ -11450,7 +11481,7 @@ async function MultiSelectModel(fieldInput, app2, values) {
       return {
         createInput(element2) {
           new FileSuggest(
-            app2,
+            app,
             element2,
             {
               renderSuggestion(file) {
@@ -11471,9 +11502,9 @@ async function MultiSelectModel(fieldInput, app2, values) {
       return absurd(source);
   }
 }
-function MultiSelectTags(fieldInput, app2, values) {
+function MultiSelectTags(fieldInput, app, values) {
   const remainingOptions = new Set(
-    Object.keys(app2.metadataCache.getTags()).map(
+    Object.keys(app.metadataCache.getTags()).map(
       (tag) => tag.slice(1)
     )
   );
@@ -11489,7 +11520,7 @@ function MultiSelectTags(fieldInput, app2, values) {
             return x == void 0 ? [selected] : [...x, selected];
           });
         },
-        app2,
+        app,
         true
       );
     },
@@ -11570,14 +11601,14 @@ function instance11($$self, $$props, $$invalidate) {
   let model;
   let values;
   let { input } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { errors } = $$props;
   let { value } = $$props;
   $$self.$$set = ($$props2) => {
     if ("input" in $$props2)
       $$invalidate(3, input = $$props2.input);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
     if ("errors" in $$props2)
       $$invalidate(0, errors = $$props2.errors);
     if ("value" in $$props2)
@@ -11587,7 +11618,7 @@ function instance11($$self, $$props, $$invalidate) {
     if ($$self.$$.dirty & /*input, app, value*/
     56) {
       $:
-        $$invalidate(2, model = MultiSelectTags(input, app2, value));
+        $$invalidate(2, model = MultiSelectTags(input, app, value));
     }
     if ($$self.$$.dirty & /*value*/
     32) {
@@ -11595,7 +11626,7 @@ function instance11($$self, $$props, $$invalidate) {
         $$invalidate(1, values = value);
     }
   };
-  return [errors, values, model, input, app2, value];
+  return [errors, values, model, input, app, value];
 }
 var InputTag = class extends SvelteComponent {
   constructor(options) {
@@ -11813,7 +11844,7 @@ function instance13($$self, $$props, $$invalidate) {
   let { form } = $$props;
   $$subscribe_form();
   let { field } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let component = new import_obsidian11.Component();
   onDestroy(() => component.unload());
   function generateContent(parent, form2, execute = false) {
@@ -11824,7 +11855,7 @@ function instance13($$self, $$props, $$invalidate) {
           console.error(error2);
           notifyError("Error in markdown block")(String(error2));
         },
-        (newText) => import_obsidian11.MarkdownRenderer.render(app2, newText, parent, "/", component)
+        (newText) => import_obsidian11.MarkdownRenderer.render(app, newText, parent, "/", component)
       ))();
     }
     return {
@@ -11839,13 +11870,13 @@ function instance13($$self, $$props, $$invalidate) {
     if ("field" in $$props2)
       $$invalidate(3, field = $$props2.field);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*app, _a*/
     48) {
       $:
-        dv = $$invalidate(5, _a = app2.plugins.plugins.dataview) === null || _a === void 0 ? void 0 : _a.api;
+        dv = $$invalidate(5, _a = app.plugins.plugins.dataview) === null || _a === void 0 ? void 0 : _a.api;
     }
     if ($$self.$$.dirty & /*field*/
     8) {
@@ -11853,7 +11884,7 @@ function instance13($$self, $$props, $$invalidate) {
         functionParsed = parseFunctionBody(field.body, "form", "dv", "el");
     }
   };
-  return [form, $form, generateContent, field, app2, _a];
+  return [form, $form, generateContent, field, app, _a];
 }
 var MarkdownBlock = class extends SvelteComponent {
   constructor(options) {
@@ -11926,14 +11957,14 @@ function instance14($$self, $$props, $$invalidate) {
   let model;
   let values;
   let { input } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { errors } = $$props;
   let { value } = $$props;
   $$self.$$set = ($$props2) => {
     if ("input" in $$props2)
       $$invalidate(3, input = $$props2.input);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
     if ("errors" in $$props2)
       $$invalidate(0, errors = $$props2.errors);
     if ("value" in $$props2)
@@ -11943,7 +11974,7 @@ function instance14($$self, $$props, $$invalidate) {
     if ($$self.$$.dirty & /*input, app, value*/
     56) {
       $:
-        $$invalidate(2, model = MultiSelectModel(input, app2, value));
+        $$invalidate(2, model = MultiSelectModel(input, app, value));
     }
     if ($$self.$$.dirty & /*value*/
     32) {
@@ -11951,7 +11982,7 @@ function instance14($$self, $$props, $$invalidate) {
         $$invalidate(1, values = value);
     }
   };
-  return [errors, values, model, input, app2, value];
+  return [errors, values, model, input, app, value];
 }
 var MultiSelectField = class extends SvelteComponent {
   constructor(options) {
@@ -11965,12 +11996,12 @@ var MultiSelectField_default = MultiSelectField;
 function get_each_context_12(ctx, list, i) {
   const child_ctx = ctx.slice();
   child_ctx[3] = list[i][0];
-  child_ctx[12] = list[i][1];
+  child_ctx[13] = list[i][1];
   return child_ctx;
 }
 function get_each_context3(ctx, list, i) {
   const child_ctx = ctx.slice();
-  child_ctx[8] = list[i];
+  child_ctx[9] = list[i];
   return child_ctx;
 }
 function get_else_ctx(ctx) {
@@ -11982,7 +12013,7 @@ function get_else_ctx(ctx) {
       child_ctx[1].folder
     )
   );
-  child_ctx[11] = constants_0;
+  child_ctx[12] = constants_0;
   return child_ctx;
 }
 function create_else_block3(ctx) {
@@ -11991,7 +12022,7 @@ function create_else_block3(ctx) {
   let dispose;
   let each_value_1 = ensure_array_like(Object.entries(
     /*options*/
-    ctx[11]
+    ctx[12]
   ));
   let each_blocks = [];
   for (let i = 0; i < each_value_1.length; i += 1) {
@@ -12010,7 +12041,7 @@ function create_else_block3(ctx) {
       )
         add_render_callback(() => (
           /*select_change_handler_1*/
-          ctx[7].call(select)
+          ctx[8].call(select)
         ));
     },
     m(target, anchor) {
@@ -12031,7 +12062,7 @@ function create_else_block3(ctx) {
           select,
           "change",
           /*select_change_handler_1*/
-          ctx[7]
+          ctx[8]
         );
         mounted = true;
       }
@@ -12041,7 +12072,7 @@ function create_else_block3(ctx) {
       34) {
         each_value_1 = ensure_array_like(Object.entries(
           /*options*/
-          ctx2[11]
+          ctx2[12]
         ));
         let i;
         for (i = 0; i < each_value_1.length; i += 1) {
@@ -12103,7 +12134,7 @@ function create_if_block6(ctx) {
       )
         add_render_callback(() => (
           /*select_change_handler*/
-          ctx[6].call(select)
+          ctx[7].call(select)
         ));
     },
     m(target, anchor) {
@@ -12124,7 +12155,7 @@ function create_if_block6(ctx) {
           select,
           "change",
           /*select_change_handler*/
-          ctx[6]
+          ctx[7]
         );
         mounted = true;
       }
@@ -12175,7 +12206,7 @@ function create_each_block_12(ctx) {
   let option_1;
   let t_value = (
     /*label*/
-    ctx[12] + ""
+    ctx[13] + ""
   );
   let t;
   let option_1_value_value;
@@ -12194,7 +12225,7 @@ function create_each_block_12(ctx) {
     p(ctx2, dirty) {
       if (dirty & /*input*/
       2 && t_value !== (t_value = /*label*/
-      ctx2[12] + ""))
+      ctx2[13] + ""))
         set_data(t, t_value);
       if (dirty & /*input*/
       2 && option_1_value_value !== (option_1_value_value = /*value*/
@@ -12214,7 +12245,7 @@ function create_each_block3(ctx) {
   let option_1;
   let t_value = (
     /*option*/
-    ctx[8].label + ""
+    ctx[9].label + ""
   );
   let t;
   let option_1_value_value;
@@ -12223,7 +12254,7 @@ function create_each_block3(ctx) {
       option_1 = element("option");
       t = text(t_value);
       option_1.__value = option_1_value_value = /*option*/
-      ctx[8].value;
+      ctx[9].value;
       set_input_value(option_1, option_1.__value);
     },
     m(target, anchor) {
@@ -12233,11 +12264,11 @@ function create_each_block3(ctx) {
     p(ctx2, dirty) {
       if (dirty & /*input*/
       2 && t_value !== (t_value = /*option*/
-      ctx2[8].label + ""))
+      ctx2[9].label + ""))
         set_data(t, t_value);
       if (dirty & /*input*/
       2 && option_1_value_value !== (option_1_value_value = /*option*/
-      ctx2[8].value)) {
+      ctx2[9].value)) {
         option_1.__value = option_1_value_value;
         set_input_value(option_1, option_1.__value);
       }
@@ -12341,7 +12372,7 @@ function create_fragment15(ctx) {
         obsidianinput_changes.description = /*field*/
         ctx2[0].description;
       if (dirty & /*$$scope, $value, input*/
-      32786) {
+      65554) {
         obsidianinput_changes.$$scope = { dirty, ctx: ctx2 };
       }
       obsidianinput.$set(obsidianinput_changes);
@@ -12368,6 +12399,7 @@ function instance15($$self, $$props, $$invalidate) {
   let { input } = $$props;
   let { value } = $$props;
   $$subscribe_value();
+  let { app } = $$props;
   let { errors } = $$props;
   function getNoteOptions(folder) {
     const files = get_tfiles_from_folder(folder, app);
@@ -12406,6 +12438,8 @@ function instance15($$self, $$props, $$invalidate) {
       $$invalidate(1, input = $$props2.input);
     if ("value" in $$props2)
       $$subscribe_value($$invalidate(3, value = $$props2.value));
+    if ("app" in $$props2)
+      $$invalidate(6, app = $$props2.app);
     if ("errors" in $$props2)
       $$invalidate(2, errors = $$props2.errors);
   };
@@ -12416,6 +12450,7 @@ function instance15($$self, $$props, $$invalidate) {
     value,
     $value,
     getNoteOptions,
+    app,
     select_change_handler,
     select_change_handler_1
   ];
@@ -12423,7 +12458,13 @@ function instance15($$self, $$props, $$invalidate) {
 var ObsidianSelect = class extends SvelteComponent {
   constructor(options) {
     super();
-    init4(this, options, instance15, create_fragment15, safe_not_equal, { field: 0, input: 1, value: 3, errors: 2 });
+    init4(this, options, instance15, create_fragment15, safe_not_equal, {
+      field: 0,
+      input: 1,
+      value: 3,
+      app: 6,
+      errors: 2
+    });
   }
 };
 var ObsidianSelect_default = ObsidianSelect;
@@ -13245,6 +13286,10 @@ function create_if_block_52(ctx) {
       app: (
         /*app*/
         ctx[2]
+      ),
+      form: (
+        /*formEngine*/
+        ctx[1]
       )
     }
   });
@@ -13278,6 +13323,10 @@ function create_if_block_52(ctx) {
       4)
         inputdataview_changes.app = /*app*/
         ctx2[2];
+      if (dirty & /*formEngine*/
+      2)
+        inputdataview_changes.form = /*formEngine*/
+        ctx2[1];
       inputdataview.$set(inputdataview_changes);
     },
     i(local) {
@@ -13431,6 +13480,10 @@ function create_if_block_22(ctx) {
       errors: (
         /*errors*/
         ctx[6]
+      ),
+      app: (
+        /*app*/
+        ctx[2]
       )
     }
   });
@@ -13460,6 +13513,10 @@ function create_if_block_22(ctx) {
       64)
         obsidianselect_changes.errors = /*errors*/
         ctx2[6];
+      if (dirty & /*app*/
+      4)
+        obsidianselect_changes.app = /*app*/
+        ctx2[2];
       obsidianselect.$set(obsidianselect_changes);
     },
     i(local) {
@@ -14242,7 +14299,7 @@ function instance17($$self, $$props, $$invalidate) {
   let { model } = $$props;
   let { definition } = $$props;
   let { formEngine } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { logger: logger3 = logger } = $$props;
   function imageinput_value_binding(value$1) {
     $value = value$1;
@@ -14260,7 +14317,7 @@ function instance17($$self, $$props, $$invalidate) {
     if ("formEngine" in $$props2)
       $$invalidate(1, formEngine = $$props2.formEngine);
     if ("app" in $$props2)
-      $$invalidate(2, app2 = $$props2.app);
+      $$invalidate(2, app = $$props2.app);
     if ("logger" in $$props2)
       $$invalidate(11, logger3 = $$props2.logger);
   };
@@ -14268,7 +14325,7 @@ function instance17($$self, $$props, $$invalidate) {
     if ($$self.$$.dirty & /*app*/
     4) {
       $:
-        $$invalidate(8, fileService = new ObsidianFileService(app2, logger));
+        $$invalidate(8, fileService = new ObsidianFileService(app, logger));
     }
     if ($$self.$$.dirty & /*model*/
     1024) {
@@ -14299,7 +14356,7 @@ function instance17($$self, $$props, $$invalidate) {
   return [
     definition,
     formEngine,
-    app2,
+    app,
     $isVisible,
     visibleError,
     isVisible,
@@ -14489,13 +14546,13 @@ function instance18($$self, $$props, $$invalidate) {
   let errors;
   let $errors, $$unsubscribe_errors = noop, $$subscribe_errors = () => ($$unsubscribe_errors(), $$unsubscribe_errors = subscribe(errors, ($$value) => $$invalidate(5, $errors = $$value)), errors);
   $$self.$$.on_destroy.push(() => $$unsubscribe_errors());
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { reportFormErrors } = $$props;
   let { formEngine } = $$props;
   let { fields } = $$props;
   $$self.$$set = ($$props2) => {
     if ("app" in $$props2)
-      $$invalidate(0, app2 = $$props2.app);
+      $$invalidate(0, app = $$props2.app);
     if ("reportFormErrors" in $$props2)
       $$invalidate(4, reportFormErrors = $$props2.reportFormErrors);
     if ("formEngine" in $$props2)
@@ -14515,7 +14572,7 @@ function instance18($$self, $$props, $$invalidate) {
         $errors.length && reportFormErrors($errors);
     }
   };
-  return [app2, formEngine, fields, errors, reportFormErrors, $errors];
+  return [app, formEngine, fields, errors, reportFormErrors, $errors];
 }
 var FormModal = class extends SvelteComponent {
   constructor(options) {
@@ -15471,28 +15528,39 @@ var notify = throttle(
   2e3
 );
 var FormModal2 = class extends import_obsidian13.Modal {
-  constructor(app2, modalDefinition, onSubmit, options) {
+  constructor(app, modalDefinition, onSubmit, options) {
     var _a;
-    super(app2);
+    super(app);
     this.modalDefinition = modalDefinition;
     this.onSubmit = onSubmit;
     this.svelteComponents = [];
     this.subscriptions = [];
+    this.hasBeenHandled = false;
     this.initialFormValues = formDataFromFormDefaults(
       modalDefinition.fields,
       (_a = options == null ? void 0 : options.values) != null ? _a : {}
     );
     this.formEngine = makeFormEngine({
       onSubmit: (result2) => {
+        this.hasBeenHandled = true;
         this.onSubmit(FormResult.make(result2, "ok"));
-        this.close();
+        super.close();
       },
       onCancel: () => {
+        this.hasBeenHandled = true;
         this.onSubmit(FormResult.make({}, "cancelled"));
-        this.close();
+        super.close();
       },
       defaultValues: this.initialFormValues
     });
+  }
+  // Override the close method to handle X button and outside clicks
+  close() {
+    if (!this.hasBeenHandled) {
+      this.hasBeenHandled = true;
+      this.onSubmit(FormResult.make({}, "cancelled"));
+    }
+    super.close();
   }
   onOpen() {
     const { contentEl } = this;
@@ -15690,7 +15758,8 @@ var FormDefinitionV1Schema = merge([
     fields: FieldListSchema,
     template: optional(
       object({
-        createCommand: boolean(),
+        createInsertCommand: optional(boolean(), () => false),
+        createNoteCommand: optional(boolean(), () => false),
         parsedTemplate: ParsedTemplateSchema
       })
     )
@@ -16160,8 +16229,8 @@ var API = class {
    * @param {App} app - The application instance
    * @param {typeof ModalFormPlugin} plugin - The plugin instance
    */
-  constructor(app2, plugin) {
-    this.app = app2;
+  constructor(app, plugin) {
+    this.app = app;
     this.plugin = plugin;
     /**
      * What this plugin considers its standard library
@@ -16326,8 +16395,8 @@ function parseSettings(maybeSettings) {
 
 // src/ModalFormSettingTab.ts
 var ModalFormSettingTab = class extends import_obsidian15.PluginSettingTab {
-  constructor(app2, plugin) {
-    super(app2, plugin);
+  constructor(app, plugin) {
+    super(app, plugin);
     this.plugin = plugin;
   }
   async display() {
@@ -19529,12 +19598,16 @@ function instance24($$self, $$props, $$invalidate) {
   let preview;
   let { index } = $$props;
   let { value = "" } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let error2 = "";
   const logger3 = (err) => $$invalidate(3, error2 = err.message);
   const makePreview = function(query) {
     $$invalidate(3, error2 = "");
-    return pipe2(query, sandboxedDvQuery, (query2) => executeSandboxedDvQuery(query2, app2, logger3));
+    return pipe2(query, sandboxedDvQuery, (query2) => (
+      // This is just for the preview, in the form builder,
+      // so there is no form to provide
+      executeSandboxedDvQuery(query2, app, {}, logger3)
+    ));
   };
   function textarea_input_handler() {
     value = this.value;
@@ -19546,7 +19619,7 @@ function instance24($$self, $$props, $$invalidate) {
     if ("value" in $$props2)
       $$invalidate(0, value = $$props2.value);
     if ("app" in $$props2)
-      $$invalidate(5, app2 = $$props2.app);
+      $$invalidate(5, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*index*/
@@ -19560,7 +19633,7 @@ function instance24($$self, $$props, $$invalidate) {
         $$invalidate(1, preview = makePreview(value));
     }
   };
-  return [value, preview, id, error2, index, app2, textarea_input_handler];
+  return [value, preview, id, error2, index, app, textarea_input_handler];
 }
 var InputBuilderDataview = class extends SvelteComponent {
   constructor(options) {
@@ -20044,12 +20117,12 @@ function instance26($$self, $$props, $$invalidate) {
   let { folder = "" } = $$props;
   let { allowedExtensions = [] } = $$props;
   let { notifyChange } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   function searchFolder(element2) {
     const setting = new import_obsidian18.Setting(element2).setName("Save Location").setDesc("Select the folder where files will be saved").addSearch((search2) => {
       search2.setPlaceholder("Select a folder");
       search2.setValue(folder);
-      new FolderSuggest(search2.inputEl, app2);
+      new FolderSuggest(search2.inputEl, app);
       search2.onChange((value) => {
         $$invalidate(5, folder = value);
         notifyChange();
@@ -20071,7 +20144,7 @@ function instance26($$self, $$props, $$invalidate) {
     if ("notifyChange" in $$props2)
       $$invalidate(7, notifyChange = $$props2.notifyChange);
     if ("app" in $$props2)
-      $$invalidate(8, app2 = $$props2.app);
+      $$invalidate(8, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*index*/
@@ -20094,7 +20167,7 @@ function instance26($$self, $$props, $$invalidate) {
     folder,
     index,
     notifyChange,
-    app2
+    app
   ];
 }
 var InputBuilderFile = class extends SvelteComponent {
@@ -20177,13 +20250,13 @@ function instance27($$self, $$props, $$invalidate) {
   let id;
   let { index } = $$props;
   let { folder } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { notifyChange } = $$props;
   function searchFolder(element2) {
     new import_obsidian19.Setting(element2).addSearch((search2) => {
       search2.setPlaceholder("Select a folder");
       search2.setValue(folder || "");
-      new FolderSuggest(search2.inputEl, app2);
+      new FolderSuggest(search2.inputEl, app);
       search2.onChange((value) => {
         $$invalidate(2, folder = value.trim() || void 0);
         notifyChange();
@@ -20196,7 +20269,7 @@ function instance27($$self, $$props, $$invalidate) {
     if ("folder" in $$props2)
       $$invalidate(2, folder = $$props2.folder);
     if ("app" in $$props2)
-      $$invalidate(4, app2 = $$props2.app);
+      $$invalidate(4, app = $$props2.app);
     if ("notifyChange" in $$props2)
       $$invalidate(5, notifyChange = $$props2.notifyChange);
   };
@@ -20207,7 +20280,7 @@ function instance27($$self, $$props, $$invalidate) {
         $$invalidate(0, id = `input_folder_${index}`);
     }
   };
-  return [id, searchFolder, folder, index, app2, notifyChange];
+  return [id, searchFolder, folder, index, app, notifyChange];
 }
 var InputBuilderFolder = class extends SvelteComponent {
   constructor(options) {
@@ -20482,12 +20555,12 @@ function instance28($$self, $$props, $$invalidate) {
   let { saveLocation = "" } = $$props;
   let { filenameTemplate = "" } = $$props;
   let { notifyChange } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   function searchFolder(element2) {
     const setting = new import_obsidian20.Setting(element2).setName("Save Location").setDesc("Select the folder where images will be saved").addSearch((search2) => {
       search2.setPlaceholder("Select a folder");
       search2.setValue(saveLocation);
-      new FolderSuggest(search2.inputEl, app2);
+      new FolderSuggest(search2.inputEl, app);
       search2.onChange((value) => {
         $$invalidate(4, saveLocation = value);
         notifyChange();
@@ -20508,7 +20581,7 @@ function instance28($$self, $$props, $$invalidate) {
     if ("notifyChange" in $$props2)
       $$invalidate(1, notifyChange = $$props2.notifyChange);
     if ("app" in $$props2)
-      $$invalidate(6, app2 = $$props2.app);
+      $$invalidate(6, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty & /*index*/
@@ -20524,7 +20597,7 @@ function instance28($$self, $$props, $$invalidate) {
     searchFolder,
     saveLocation,
     index,
-    app2,
+    app,
     input_input_handler
   ];
 }
@@ -21831,7 +21904,7 @@ function instance29($$self, $$props, $$invalidate) {
   let { folder } = $$props;
   let { allowUnknownValues = false } = $$props;
   let { options = [] } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let { notifyChange } = $$props;
   let { is_multi } = $$props;
   function moveOption(from, direction) {
@@ -21904,7 +21977,7 @@ function instance29($$self, $$props, $$invalidate) {
     if ("options" in $$props2)
       $$invalidate(4, options = $$props2.options);
     if ("app" in $$props2)
-      $$invalidate(6, app2 = $$props2.app);
+      $$invalidate(6, app = $$props2.app);
     if ("notifyChange" in $$props2)
       $$invalidate(7, notifyChange = $$props2.notifyChange);
     if ("is_multi" in $$props2)
@@ -21934,7 +22007,7 @@ function instance29($$self, $$props, $$invalidate) {
     allowUnknownValues,
     options,
     index,
-    app2,
+    app,
     notifyChange,
     is_multi,
     showAllowUnknownValuesOption,
@@ -22150,22 +22223,154 @@ var Tabs = class extends SvelteComponent {
 };
 var Tabs_default = Tabs;
 
-// src/views/components/TemplateEditor.svelte
+// src/views/components/Label.svelte
 function add_css14(target) {
-  append_styles(target, "svelte-1daddci", ".fields-list.svelte-1daddci{padding-top:1rem}textarea.svelte-1daddci{font-family:var(--font-family-monospace);width:100%}");
+  append_styles(target, "svelte-176ht1g", ".field-group.svelte-176ht1g{display:flex;flex-direction:column;gap:0.5rem}.inline.svelte-176ht1g{flex-direction:row;align-items:center;gap:1rem}");
+}
+function create_fragment31(ctx) {
+  let label_1;
+  let span;
+  let t0;
+  let t1;
+  let current;
+  const default_slot_template = (
+    /*#slots*/
+    ctx[3].default
+  );
+  const default_slot = create_slot(
+    default_slot_template,
+    ctx,
+    /*$$scope*/
+    ctx[2],
+    null
+  );
+  return {
+    c() {
+      label_1 = element("label");
+      span = element("span");
+      t0 = text(
+        /*label*/
+        ctx[0]
+      );
+      t1 = space();
+      if (default_slot)
+        default_slot.c();
+      attr(label_1, "class", "field-group svelte-176ht1g");
+      toggle_class(
+        label_1,
+        "inline",
+        /*inline*/
+        ctx[1]
+      );
+    },
+    m(target, anchor) {
+      insert(target, label_1, anchor);
+      append5(label_1, span);
+      append5(span, t0);
+      append5(label_1, t1);
+      if (default_slot) {
+        default_slot.m(label_1, null);
+      }
+      current = true;
+    },
+    p(ctx2, [dirty]) {
+      if (!current || dirty & /*label*/
+      1)
+        set_data(
+          t0,
+          /*label*/
+          ctx2[0]
+        );
+      if (default_slot) {
+        if (default_slot.p && (!current || dirty & /*$$scope*/
+        4)) {
+          update_slot_base(
+            default_slot,
+            default_slot_template,
+            ctx2,
+            /*$$scope*/
+            ctx2[2],
+            !current ? get_all_dirty_from_scope(
+              /*$$scope*/
+              ctx2[2]
+            ) : get_slot_changes(
+              default_slot_template,
+              /*$$scope*/
+              ctx2[2],
+              dirty,
+              null
+            ),
+            null
+          );
+        }
+      }
+      if (!current || dirty & /*inline*/
+      2) {
+        toggle_class(
+          label_1,
+          "inline",
+          /*inline*/
+          ctx2[1]
+        );
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(default_slot, local);
+      current = true;
+    },
+    o(local) {
+      transition_out(default_slot, local);
+      current = false;
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(label_1);
+      }
+      if (default_slot)
+        default_slot.d(detaching);
+    }
+  };
+}
+function instance31($$self, $$props, $$invalidate) {
+  let { $$slots: slots = {}, $$scope } = $$props;
+  let { label } = $$props;
+  let { inline = false } = $$props;
+  $$self.$$set = ($$props2) => {
+    if ("label" in $$props2)
+      $$invalidate(0, label = $$props2.label);
+    if ("inline" in $$props2)
+      $$invalidate(1, inline = $$props2.inline);
+    if ("$$scope" in $$props2)
+      $$invalidate(2, $$scope = $$props2.$$scope);
+  };
+  return [label, inline, $$scope, slots];
+}
+var Label = class extends SvelteComponent {
+  constructor(options) {
+    super();
+    init4(this, options, instance31, create_fragment31, safe_not_equal, { label: 0, inline: 1 }, add_css14);
+  }
+};
+var Label_default = Label;
+
+// src/views/components/TemplateEditor.svelte
+function add_css15(target) {
+  append_styles(target, "svelte-i13s2w", ".fields-list.svelte-i13s2w.svelte-i13s2w{padding-top:1rem}textarea.svelte-i13s2w.svelte-i13s2w{font-family:var(--font-family-monospace);width:100%}.command-options.svelte-i13s2w.svelte-i13s2w{margin:1rem 0}.command-options.svelte-i13s2w h4.svelte-i13s2w{margin-bottom:0.5rem}.options-container.svelte-i13s2w.svelte-i13s2w{display:flex;flex-direction:column;gap:0.5rem}");
 }
 function get_each_context8(ctx, list, i) {
   const child_ctx = ctx.slice();
-  child_ctx[11] = list[i];
+  child_ctx[16] = list[i];
   return child_ctx;
 }
-function create_default_slot_17(ctx) {
+function create_default_slot_33(ctx) {
   let t;
   return {
     c() {
       t = text(
         /*exampleText*/
-        ctx[5]
+        ctx[9]
       );
     },
     m(target, anchor) {
@@ -22179,20 +22384,98 @@ function create_default_slot_17(ctx) {
     }
   };
 }
+function create_default_slot_24(ctx) {
+  let input;
+  let mounted;
+  let dispose;
+  return {
+    c() {
+      input = element("input");
+      attr(input, "type", "checkbox");
+    },
+    m(target, anchor) {
+      insert(target, input, anchor);
+      input.checked = /*$commandOptions*/
+      ctx[7].createInsertCommand;
+      if (!mounted) {
+        dispose = listen(
+          input,
+          "change",
+          /*input_change_handler*/
+          ctx[11]
+        );
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (dirty & /*$commandOptions*/
+      128) {
+        input.checked = /*$commandOptions*/
+        ctx2[7].createInsertCommand;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(input);
+      }
+      mounted = false;
+      dispose();
+    }
+  };
+}
+function create_default_slot_17(ctx) {
+  let input;
+  let mounted;
+  let dispose;
+  return {
+    c() {
+      input = element("input");
+      attr(input, "type", "checkbox");
+    },
+    m(target, anchor) {
+      insert(target, input, anchor);
+      input.checked = /*$commandOptions*/
+      ctx[7].createNoteCommand;
+      if (!mounted) {
+        dispose = listen(
+          input,
+          "change",
+          /*input_change_handler_1*/
+          ctx[12]
+        );
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (dirty & /*$commandOptions*/
+      128) {
+        input.checked = /*$commandOptions*/
+        ctx2[7].createNoteCommand;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(input);
+      }
+      mounted = false;
+      dispose();
+    }
+  };
+}
 function create_each_block8(ctx) {
   let li;
   let code;
   let t0_value = (
     /*field*/
-    ctx[11] + ""
+    ctx[16] + ""
   );
   let t0;
   let t1;
   let t2_value = (
     /*usedVariables*/
-    ctx[4].includes(
+    ctx[6].includes(
       /*field*/
-      ctx[11]
+      ctx[16]
     ) ? "\u2705" : ""
   );
   let t2;
@@ -22217,13 +22500,13 @@ function create_each_block8(ctx) {
     p(ctx2, dirty) {
       if (dirty & /*fieldNames*/
       4 && t0_value !== (t0_value = /*field*/
-      ctx2[11] + ""))
+      ctx2[16] + ""))
         set_data(t0, t0_value);
       if (dirty & /*usedVariables, fieldNames*/
-      20 && t2_value !== (t2_value = /*usedVariables*/
-      ctx2[4].includes(
+      68 && t2_value !== (t2_value = /*usedVariables*/
+      ctx2[6].includes(
         /*field*/
-        ctx2[11]
+        ctx2[16]
       ) ? "\u2705" : ""))
         set_data(t2, t2_value);
     },
@@ -22266,7 +22549,7 @@ function create_if_block14(ctx) {
     p(ctx2, dirty) {
       const code_changes = {};
       if (dirty & /*$$scope, templateErrorMessage*/
-      16392) {
+      524320) {
         code_changes.$$scope = { dirty, ctx: ctx2 };
       }
       code.$set(code_changes);
@@ -22295,7 +22578,7 @@ function create_default_slot13(ctx) {
     c() {
       t = text(
         /*templateErrorMessage*/
-        ctx[3]
+        ctx[5]
       );
     },
     m(target, anchor) {
@@ -22303,11 +22586,11 @@ function create_default_slot13(ctx) {
     },
     p(ctx2, dirty) {
       if (dirty & /*templateErrorMessage*/
-      8)
+      32)
         set_data(
           t,
           /*templateErrorMessage*/
-          ctx2[3]
+          ctx2[5]
         );
     },
     d(detaching) {
@@ -22317,7 +22600,7 @@ function create_default_slot13(ctx) {
     }
   };
 }
-function create_fragment31(ctx) {
+function create_fragment32(ctx) {
   let h6;
   let t0;
   let t1;
@@ -22332,23 +22615,47 @@ function create_fragment31(ctx) {
   let t8;
   let code1;
   let t9;
-  let button;
-  let t10;
-  let button_disabled_value;
+  let div3;
+  let h4;
   let t11;
   let div2;
+  let label0;
   let t12;
-  let ul;
+  let label1;
   let t13;
+  let button;
+  let t14;
+  let button_disabled_value;
+  let t15;
+  let div4;
+  let t16;
+  let ul;
+  let t17;
   let textarea;
   let textarea_rows_value;
-  let t14;
+  let t18;
   let if_block_anchor;
   let current;
   let mounted;
   let dispose;
   code1 = new Code_default({
     props: {
+      $$slots: { default: [create_default_slot_33] },
+      $$scope: { ctx }
+    }
+  });
+  label0 = new Label_default({
+    props: {
+      label: "Create command to insert template",
+      inline: true,
+      $$slots: { default: [create_default_slot_24] },
+      $$scope: { ctx }
+    }
+  });
+  label1 = new Label_default({
+    props: {
+      label: "Create command to create note from template",
+      inline: true,
       $$slots: { default: [create_default_slot_17] },
       $$scope: { ctx }
     }
@@ -22363,7 +22670,7 @@ function create_fragment31(ctx) {
   }
   let if_block = (
     /*templateErrorMessage*/
-    ctx[3] && create_if_block14(ctx)
+    ctx[5] && create_if_block14(ctx)
   );
   return {
     c() {
@@ -22375,7 +22682,7 @@ function create_fragment31(ctx) {
       );
       t2 = space();
       p = element("p");
-      t3 = text("Templates are used when you create a note directly from a form. You can put\n    any text you want and reference the form fields using the ");
+      t3 = text("Templates are used when you create a note directly from a form. You can put any text you want\n    and reference the form fields using the ");
       code0 = element("code");
       code0.textContent = `${`{{name}}`}`;
       t5 = text("\n    syntax.");
@@ -22386,27 +22693,39 @@ function create_fragment31(ctx) {
       t8 = space();
       create_component(code1.$$.fragment);
       t9 = space();
-      button = element("button");
-      t10 = text("Save template");
+      div3 = element("div");
+      h4 = element("h4");
+      h4.textContent = "Create Commands";
       t11 = space();
       div2 = element("div");
-      t12 = text("Available fields:\n    ");
+      create_component(label0.$$.fragment);
+      t12 = space();
+      create_component(label1.$$.fragment);
+      t13 = space();
+      button = element("button");
+      t14 = text("Save template");
+      t15 = space();
+      div4 = element("div");
+      t16 = text("Available fields:\n    ");
       ul = element("ul");
       for (let i = 0; i < each_blocks.length; i += 1) {
         each_blocks[i].c();
       }
-      t13 = space();
+      t17 = space();
       textarea = element("textarea");
-      t14 = space();
+      t18 = space();
       if (if_block)
         if_block.c();
       if_block_anchor = empty4();
+      attr(h4, "class", "svelte-i13s2w");
+      attr(div2, "class", "options-container svelte-i13s2w");
+      attr(div3, "class", "command-options svelte-i13s2w");
       attr(button, "class", "btn btn-primary");
       button.disabled = button_disabled_value = !!/*templateErrorMessage*/
-      ctx[3];
-      attr(div2, "class", "fields-list svelte-1daddci");
+      ctx[5];
+      attr(div4, "class", "fields-list svelte-i13s2w");
       attr(textarea, "rows", textarea_rows_value = 10);
-      attr(textarea, "class", "form-control svelte-1daddci");
+      attr(textarea, "class", "form-control svelte-i13s2w");
       attr(textarea, "placeholder", "Enter template here");
     },
     m(target, anchor) {
@@ -22424,25 +22743,33 @@ function create_fragment31(ctx) {
       append5(div1, t8);
       mount_component(code1, div1, null);
       insert(target, t9, anchor);
-      insert(target, button, anchor);
-      append5(button, t10);
-      insert(target, t11, anchor);
-      insert(target, div2, anchor);
+      insert(target, div3, anchor);
+      append5(div3, h4);
+      append5(div3, t11);
+      append5(div3, div2);
+      mount_component(label0, div2, null);
       append5(div2, t12);
-      append5(div2, ul);
+      mount_component(label1, div2, null);
+      insert(target, t13, anchor);
+      insert(target, button, anchor);
+      append5(button, t14);
+      insert(target, t15, anchor);
+      insert(target, div4, anchor);
+      append5(div4, t16);
+      append5(div4, ul);
       for (let i = 0; i < each_blocks.length; i += 1) {
         if (each_blocks[i]) {
           each_blocks[i].m(ul, null);
         }
       }
-      insert(target, t13, anchor);
+      insert(target, t17, anchor);
       insert(target, textarea, anchor);
       set_input_value(
         textarea,
         /*templateString*/
         ctx[0]
       );
-      insert(target, t14, anchor);
+      insert(target, t18, anchor);
       if (if_block)
         if_block.m(target, anchor);
       insert(target, if_block_anchor, anchor);
@@ -22452,14 +22779,14 @@ function create_fragment31(ctx) {
           listen(
             button,
             "click",
-            /*handleSave*/
-            ctx[6]
+            /*click_handler*/
+            ctx[13]
           ),
           listen(
             textarea,
             "input",
             /*textarea_input_handler*/
-            ctx[9]
+            ctx[14]
           )
         ];
         mounted = true;
@@ -22475,17 +22802,29 @@ function create_fragment31(ctx) {
         );
       const code1_changes = {};
       if (dirty & /*$$scope*/
-      16384) {
+      524288) {
         code1_changes.$$scope = { dirty, ctx: ctx2 };
       }
       code1.$set(code1_changes);
+      const label0_changes = {};
+      if (dirty & /*$$scope, $commandOptions*/
+      524416) {
+        label0_changes.$$scope = { dirty, ctx: ctx2 };
+      }
+      label0.$set(label0_changes);
+      const label1_changes = {};
+      if (dirty & /*$$scope, $commandOptions*/
+      524416) {
+        label1_changes.$$scope = { dirty, ctx: ctx2 };
+      }
+      label1.$set(label1_changes);
       if (!current || dirty & /*templateErrorMessage*/
-      8 && button_disabled_value !== (button_disabled_value = !!/*templateErrorMessage*/
-      ctx2[3])) {
+      32 && button_disabled_value !== (button_disabled_value = !!/*templateErrorMessage*/
+      ctx2[5])) {
         button.disabled = button_disabled_value;
       }
       if (dirty & /*usedVariables, fieldNames*/
-      20) {
+      68) {
         each_value = ensure_array_like(
           /*fieldNames*/
           ctx2[2]
@@ -22516,12 +22855,12 @@ function create_fragment31(ctx) {
       }
       if (
         /*templateErrorMessage*/
-        ctx2[3]
+        ctx2[5]
       ) {
         if (if_block) {
           if_block.p(ctx2, dirty);
           if (dirty & /*templateErrorMessage*/
-          8) {
+          32) {
             transition_in(if_block, 1);
           }
         } else {
@@ -22542,11 +22881,15 @@ function create_fragment31(ctx) {
       if (current)
         return;
       transition_in(code1.$$.fragment, local);
+      transition_in(label0.$$.fragment, local);
+      transition_in(label1.$$.fragment, local);
       transition_in(if_block);
       current = true;
     },
     o(local) {
       transition_out(code1.$$.fragment, local);
+      transition_out(label0.$$.fragment, local);
+      transition_out(label1.$$.fragment, local);
       transition_out(if_block);
       current = false;
     },
@@ -22558,15 +22901,19 @@ function create_fragment31(ctx) {
         detach(t6);
         detach(div1);
         detach(t9);
-        detach(button);
-        detach(t11);
-        detach(div2);
+        detach(div3);
         detach(t13);
+        detach(button);
+        detach(t15);
+        detach(div4);
+        detach(t17);
         detach(textarea);
-        detach(t14);
+        detach(t18);
         detach(if_block_anchor);
       }
       destroy_component(code1);
+      destroy_component(label0);
+      destroy_component(label1);
       destroy_each(each_blocks, detaching);
       if (if_block)
         if_block.d(detaching);
@@ -22575,18 +22922,35 @@ function create_fragment31(ctx) {
     }
   };
 }
-function instance31($$self, $$props, $$invalidate) {
+function instance32($$self, $$props, $$invalidate) {
   let parsedTemplate;
   let usedVariables;
   let templateErrorMessage;
+  let $commandOptions;
   let { templateString } = $$props;
   let { formName } = $$props;
   let { fieldNames } = $$props;
   let { saveTemplate } = $$props;
+  let { initialCommandOptions = {
+    createInsertCommand: false,
+    createNoteCommand: false
+  } } = $$props;
+  const commandOptions = writable(initialCommandOptions);
+  component_subscribe($$self, commandOptions, (value) => $$invalidate(7, $commandOptions = value));
   const firstField = fieldNames[0];
   const exampleText = `Example text {{${firstField}}}`;
-  const handleSave = () => {
-    pipe2(parsedTemplate, Either_exports.map(saveTemplate));
+  function input_change_handler() {
+    $commandOptions.createInsertCommand = this.checked;
+    commandOptions.set($commandOptions);
+  }
+  function input_change_handler_1() {
+    $commandOptions.createNoteCommand = this.checked;
+    commandOptions.set($commandOptions);
+  }
+  const click_handler = () => {
+    if (Either_exports.isRight(parsedTemplate)) {
+      saveTemplate(parsedTemplate.right, $commandOptions);
+    }
   };
   function textarea_input_handler() {
     templateString = this.value;
@@ -22600,35 +22964,48 @@ function instance31($$self, $$props, $$invalidate) {
     if ("fieldNames" in $$props2)
       $$invalidate(2, fieldNames = $$props2.fieldNames);
     if ("saveTemplate" in $$props2)
-      $$invalidate(7, saveTemplate = $$props2.saveTemplate);
+      $$invalidate(3, saveTemplate = $$props2.saveTemplate);
+    if ("initialCommandOptions" in $$props2)
+      $$invalidate(10, initialCommandOptions = $$props2.initialCommandOptions);
   };
   $$self.$$.update = () => {
+    if ($$self.$$.dirty & /*initialCommandOptions*/
+    1024) {
+      $: {
+        commandOptions.set(initialCommandOptions);
+      }
+    }
     if ($$self.$$.dirty & /*templateString*/
     1) {
       $:
-        $$invalidate(8, parsedTemplate = parseTemplate(templateString));
+        $$invalidate(4, parsedTemplate = parseTemplate(templateString));
     }
     if ($$self.$$.dirty & /*parsedTemplate*/
-    256) {
+    16) {
       $:
-        $$invalidate(4, usedVariables = templateVariables(parsedTemplate));
+        $$invalidate(6, usedVariables = templateVariables(parsedTemplate));
     }
     if ($$self.$$.dirty & /*parsedTemplate*/
-    256) {
+    16) {
       $:
-        $$invalidate(3, templateErrorMessage = templateError(parsedTemplate));
+        $$invalidate(5, templateErrorMessage = templateError(parsedTemplate));
     }
   };
   return [
     templateString,
     formName,
     fieldNames,
-    templateErrorMessage,
-    usedVariables,
-    exampleText,
-    handleSave,
     saveTemplate,
     parsedTemplate,
+    templateErrorMessage,
+    usedVariables,
+    $commandOptions,
+    commandOptions,
+    exampleText,
+    initialCommandOptions,
+    input_change_handler,
+    input_change_handler_1,
+    click_handler,
     textarea_input_handler
   ];
 }
@@ -22638,23 +23015,24 @@ var TemplateEditor = class extends SvelteComponent {
     init4(
       this,
       options,
-      instance31,
-      create_fragment31,
+      instance32,
+      create_fragment32,
       safe_not_equal,
       {
         templateString: 0,
         formName: 1,
         fieldNames: 2,
-        saveTemplate: 7
+        saveTemplate: 3,
+        initialCommandOptions: 10
       },
-      add_css14
+      add_css15
     );
   }
 };
 var TemplateEditor_default = TemplateEditor;
 
 // src/views/FormBuilder.svelte
-function add_css15(target) {
+function add_css16(target) {
   append_styles(target, "svelte-o83u0b", ".wrapper.svelte-o83u0b,.body.svelte-o83u0b{flex:1;display:flex;flex-direction:column}.wrapper.svelte-o83u0b{max-height:100%;min-height:100%;height:100%;overflow:hidden}.is-mobile .body,.body.svelte-o83u0b{padding-top:0.5rem;overflow-y:scroll}.header.svelte-o83u0b{box-shadow:var(--shadow-bottom) var(--divider-color);padding:1rem}@media(min-width: 100rem){.body.svelte-o83u0b{overflow-y:hidden}.fields.svelte-o83u0b{flex:1;height:100%}form.svelte-o83u0b{display:flex;flex-direction:column;height:100%;overflow:hidden}}.template.svelte-o83u0b{padding:1rem}.fields.svelte-o83u0b{overflow-y:auto;padding:1rem}.flex.svelte-o83u0b{display:flex}.column.svelte-o83u0b{flex-direction:column}.gap1.svelte-o83u0b{gap:0.5rem}.gap2.svelte-o83u0b{gap:1rem}fieldset.svelte-o83u0b{border:none;padding:0}.hint.svelte-o83u0b{color:var(--color-base-70)}.error.svelte-o83u0b{color:var(--text-error);font-weight:bold}button.svelte-o83u0b:disabled{opacity:0.5;cursor:forbidden}@media(min-width: 58rem){.md-row.svelte-o83u0b{flex-direction:row}}");
 }
 function get_each_context9(ctx, list, i) {
@@ -23058,6 +23436,7 @@ function create_else_block7(ctx) {
   };
 }
 function create_if_block15(ctx) {
+  var _a, _b, _c, _d;
   let div;
   let templateeditor;
   let current;
@@ -23081,7 +23460,17 @@ function create_if_block15(ctx) {
           /*definition*/
           ctx[0].template.parsedTemplate
         ) : ""
-      )
+      ),
+      initialCommandOptions: {
+        createInsertCommand: (
+          /*definition*/
+          (_b = (_a = ctx[0].template) == null ? void 0 : _a.createInsertCommand) != null ? _b : false
+        ),
+        createNoteCommand: (
+          /*definition*/
+          (_d = (_c = ctx[0].template) == null ? void 0 : _c.createNoteCommand) != null ? _d : false
+        )
+      }
     }
   });
   return {
@@ -23096,6 +23485,7 @@ function create_if_block15(ctx) {
       current = true;
     },
     p(ctx2, dirty) {
+      var _a2, _b2, _c2, _d2;
       const templateeditor_changes = {};
       if (dirty[0] & /*definition*/
       1)
@@ -23112,6 +23502,18 @@ function create_if_block15(ctx) {
           /*definition*/
           ctx2[0].template.parsedTemplate
         ) : "";
+      if (dirty[0] & /*definition*/
+      1)
+        templateeditor_changes.initialCommandOptions = {
+          createInsertCommand: (
+            /*definition*/
+            (_b2 = (_a2 = ctx2[0].template) == null ? void 0 : _a2.createInsertCommand) != null ? _b2 : false
+          ),
+          createNoteCommand: (
+            /*definition*/
+            (_d2 = (_c2 = ctx2[0].template) == null ? void 0 : _c2.createNoteCommand) != null ? _d2 : false
+          )
+        };
       templateeditor.$set(templateeditor_changes);
     },
     i(local) {
@@ -25204,7 +25606,7 @@ function create_each_block9(ctx) {
     }
   };
 }
-function create_fragment32(ctx) {
+function create_fragment33(ctx) {
   let div1;
   let tabs;
   let updating_activeTab;
@@ -25322,7 +25724,7 @@ function scrollWhenActive(element2, isActive) {
   update3(isActive);
   return { update: update3 };
 }
-function instance32($$self, $$props, $$invalidate) {
+function instance33($$self, $$props, $$invalidate) {
   let isValid;
   let errors;
   let activeFieldIndex;
@@ -25338,7 +25740,7 @@ function instance32($$self, $$props, $$invalidate) {
   let { onSubmit } = $$props;
   let { onCancel } = $$props;
   let { onPreview } = $$props;
-  let { app: app2 } = $$props;
+  let { app } = $$props;
   let currentTab = "form";
   function findFreeName(fieldIndex) {
     const field = definition.fields[fieldIndex];
@@ -25390,10 +25792,14 @@ function instance32($$self, $$props, $$invalidate) {
       return;
     onSubmit(definition);
   };
-  function saveTemplate(parsedTemplate) {
+  function saveTemplate(parsedTemplate, commandOptions) {
     onSubmit({
       ...definition,
-      template: { parsedTemplate, createCommand: true }
+      template: {
+        parsedTemplate,
+        createInsertCommand: commandOptions.createInsertCommand,
+        createNoteCommand: commandOptions.createNoteCommand
+      }
     });
   }
   const handlePreview = () => {
@@ -25590,7 +25996,7 @@ function instance32($$self, $$props, $$invalidate) {
     if ("onPreview" in $$props2)
       $$invalidate(16, onPreview = $$props2.onPreview);
     if ("app" in $$props2)
-      $$invalidate(3, app2 = $$props2.app);
+      $$invalidate(3, app = $$props2.app);
   };
   $$self.$$.update = () => {
     if ($$self.$$.dirty[0] & /*definition*/
@@ -25620,7 +26026,7 @@ function instance32($$self, $$props, $$invalidate) {
     definition,
     onChange,
     onCancel,
-    app2,
+    app,
     currentTab,
     availableFieldsForCondition,
     activeFieldIndex,
@@ -25676,8 +26082,8 @@ var FormBuilder2 = class extends SvelteComponent {
     init4(
       this,
       options,
-      instance32,
-      create_fragment32,
+      instance33,
+      create_fragment33,
       safe_not_equal,
       {
         definition: 0,
@@ -25687,7 +26093,7 @@ var FormBuilder2 = class extends SvelteComponent {
         onPreview: 16,
         app: 3
       },
-      add_css15,
+      add_css16,
       [-1, -1, -1]
     );
   }
@@ -25778,7 +26184,7 @@ var import_obsidian25 = require("obsidian");
 
 // src/views/components/Button.svelte
 var import_obsidian24 = require("obsidian");
-function create_fragment33(ctx) {
+function create_fragment34(ctx) {
   let span;
   return {
     c() {
@@ -25799,7 +26205,7 @@ function create_fragment33(ctx) {
     }
   };
 }
-function instance33($$self, $$props, $$invalidate) {
+function instance34($$self, $$props, $$invalidate) {
   let { tooltip = void 0 } = $$props;
   let { icon = void 0 } = $$props;
   let { text: text3 = void 0 } = $$props;
@@ -25845,7 +26251,7 @@ function instance33($$self, $$props, $$invalidate) {
 var Button = class extends SvelteComponent {
   constructor(options) {
     super();
-    init4(this, options, instance33, create_fragment33, safe_not_equal, {
+    init4(this, options, instance34, create_fragment34, safe_not_equal, {
       tooltip: 1,
       icon: 2,
       text: 3,
@@ -25857,10 +26263,10 @@ var Button = class extends SvelteComponent {
 var Button_default = Button;
 
 // src/views/components/KeyValue.svelte
-function add_css16(target) {
+function add_css17(target) {
   append_styles(target, "svelte-1i8bb6o", "div.svelte-1i8bb6o{display:flex;flex-direction:row;align-items:flex-start;gap:var(--mf-spacing)}.key.svelte-1i8bb6o{color:var(--text-faint)}");
 }
-function create_fragment34(ctx) {
+function create_fragment35(ctx) {
   let div;
   let span;
   let t0;
@@ -25955,7 +26361,7 @@ function create_fragment34(ctx) {
     }
   };
 }
-function instance34($$self, $$props, $$invalidate) {
+function instance35($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   let { key } = $$props;
   $$self.$$set = ($$props2) => {
@@ -25969,13 +26375,13 @@ function instance34($$self, $$props, $$invalidate) {
 var KeyValue = class extends SvelteComponent {
   constructor(options) {
     super();
-    init4(this, options, instance34, create_fragment34, safe_not_equal, { key: 0 }, add_css16);
+    init4(this, options, instance35, create_fragment35, safe_not_equal, { key: 0 }, add_css17);
   }
 };
 var KeyValue_default = KeyValue;
 
 // src/views/ManageForms.svelte
-function add_css17(target) {
+function add_css18(target) {
   append_styles(target, "svelte-1gkuvrl", ".form-row.svelte-1gkuvrl.svelte-1gkuvrl{display:flex;flex-direction:column;gap:8px}.form-row-buttons.svelte-1gkuvrl.svelte-1gkuvrl{display:flex;gap:8px}.form-name.svelte-1gkuvrl.svelte-1gkuvrl{margin-bottom:0}.header.svelte-1gkuvrl.svelte-1gkuvrl{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}h5.svelte-1gkuvrl.svelte-1gkuvrl{margin-bottom:0}.flex-row.svelte-1gkuvrl.svelte-1gkuvrl{display:flex;flex-direction:row;gap:8px}pre.svelte-1gkuvrl.svelte-1gkuvrl{white-space:pre-wrap}.invalid-field-json.svelte-1gkuvrl.svelte-1gkuvrl{background-color:var(--background-secondary);padding:0 8px;margin:0}.invalid-field-json.svelte-1gkuvrl code.svelte-1gkuvrl{display:flex}");
 }
 function get_each_context10(ctx, list, i) {
@@ -26068,7 +26474,7 @@ function create_if_block_113(ctx) {
         /*key*/
         ctx[40]
       ),
-      $$slots: { default: [create_default_slot_33] },
+      $$slots: { default: [create_default_slot_34] },
       $$scope: { ctx }
     }
   });
@@ -26108,7 +26514,7 @@ function create_if_block_113(ctx) {
     }
   };
 }
-function create_default_slot_33(ctx) {
+function create_default_slot_34(ctx) {
   let span;
   let t_value = (Array.isArray(
     /*value*/
@@ -26251,7 +26657,7 @@ function create_each_block_5(ctx) {
     }
   };
 }
-function create_default_slot_24(ctx) {
+function create_default_slot_25(ctx) {
   let span;
   let each_value_5 = ensure_array_like(
     /*form*/
@@ -26352,7 +26758,7 @@ function create_each_block_4(ctx) {
   keyvalue = new KeyValue_default({
     props: {
       key: "Field names",
-      $$slots: { default: [create_default_slot_24] },
+      $$slots: { default: [create_default_slot_25] },
       $$scope: { ctx }
     }
   });
@@ -27119,7 +27525,7 @@ function create_each_block10(ctx) {
     }
   };
 }
-function create_fragment35(ctx) {
+function create_fragment36(ctx) {
   let div1;
   let h1;
   let t1;
@@ -27333,7 +27739,7 @@ function create_fragment35(ctx) {
     }
   };
 }
-function instance35($$self, $$props, $$invalidate) {
+function instance36($$self, $$props, $$invalidate) {
   let $invalidForms, $$unsubscribe_invalidForms = noop, $$subscribe_invalidForms = () => ($$unsubscribe_invalidForms(), $$unsubscribe_invalidForms = subscribe(invalidForms, ($$value) => $$invalidate(4, $invalidForms = $$value)), invalidForms);
   let $forms, $$unsubscribe_forms = noop, $$subscribe_forms = () => ($$unsubscribe_forms(), $$unsubscribe_forms = subscribe(forms, ($$value) => $$invalidate(5, $forms = $$value)), forms);
   $$self.$$.on_destroy.push(() => $$unsubscribe_invalidForms());
@@ -27438,8 +27844,8 @@ var ManageForms = class extends SvelteComponent {
     init4(
       this,
       options,
-      instance35,
-      create_fragment35,
+      instance36,
+      create_fragment36,
       safe_not_equal,
       {
         createNewForm: 0,
@@ -27453,7 +27859,7 @@ var ManageForms = class extends SvelteComponent {
         forms: 2,
         invalidForms: 3
       },
-      add_css17,
+      add_css18,
       [-1, -1]
     );
   }
@@ -27544,8 +27950,8 @@ var TemplateError = class extends Error {
 
 // src/core/template/BasicTemplateService.ts
 var BasicTemplateService = class {
-  constructor(app2, logger3) {
-    this.app = app2;
+  constructor(app, logger3) {
+    this.app = app;
     this.logger = logger3;
     this.createNoteFromTemplate = (templateContent, targetFolder, filename, openNewNote) => TaskEither_exports2.tryCatch(async () => {
       const fullPath = (0, import_obsidian26.normalizePath)(`${targetFolder}/${filename}.md`);
@@ -27570,8 +27976,8 @@ var BasicTemplateService = class {
 
 // src/core/template/TemplaterService.ts
 var TemplaterService = class {
-  constructor(app2, logger3, templaterApi) {
-    this.app = app2;
+  constructor(app, logger3, templaterApi) {
+    this.app = app;
     this.logger = logger3;
     this.templaterApi = templaterApi;
     this.createNoteFromTemplate = (templateContent, targetFolder, filename, openNewNote) => TaskEither_exports2.tryCatch(
@@ -27609,15 +28015,15 @@ var TemplaterService = class {
 };
 
 // src/core/template/getTemplateService.ts
-function getTemplateService(app2, logger3) {
+function getTemplateService(app, logger3) {
   var _a;
-  const templaterApi = (_a = app2.plugins.plugins["templater-obsidian"]) == null ? void 0 : _a.templater;
+  const templaterApi = (_a = app.plugins.plugins["templater-obsidian"]) == null ? void 0 : _a.templater;
   if (templaterApi) {
     logger3.debug("Using Templater plugin for templates");
-    return new TemplaterService(app2, logger3, templaterApi);
+    return new TemplaterService(app, logger3, templaterApi);
   }
   logger3.debug("Using basic template service");
-  return new BasicTemplateService(app2, logger3);
+  return new BasicTemplateService(app, logger3);
 }
 
 // src/core/template/retryForm.ts
@@ -27652,8 +28058,8 @@ var retryForm = {
 // src/suggesters/FormPickerModal.ts
 var import_obsidian27 = require("obsidian");
 var FormPickerModal = class extends import_obsidian27.FuzzySuggestModal {
-  constructor(app2, forms, onSelected) {
-    super(app2);
+  constructor(app, forms, onSelected) {
+    super(app);
     this.forms = forms;
     this.onSelected = onSelected;
   }
@@ -27675,8 +28081,8 @@ var import_obsidian29 = require("obsidian");
 // src/suggesters/suggestGeneric.ts
 var import_obsidian28 = require("obsidian");
 var GenericSuggest = class extends import_obsidian28.AbstractInputSuggest {
-  constructor(app2, inputEl, content, strategy) {
-    super(app2, inputEl);
+  constructor(app, inputEl, content, strategy) {
+    super(app, inputEl);
     this.inputEl = inputEl;
     this.strategy = strategy;
     this.content = content;
@@ -27696,8 +28102,8 @@ var GenericSuggest = class extends import_obsidian28.AbstractInputSuggest {
 };
 
 // src/suggesters/NewNoteModal.ts
-var formSuggester = (app2, input, forms, onChange) => new GenericSuggest(
-  app2,
+var formSuggester = (app, input, forms, onChange) => new GenericSuggest(
+  app,
   input,
   new Set(forms),
   {
@@ -27714,22 +28120,42 @@ var formSuggester = (app2, input, forms, onChange) => new GenericSuggest(
   }
 );
 var NewNoteModal = class extends import_obsidian29.Modal {
-  constructor(app2, forms, onSelected) {
-    super(app2);
+  constructor(app, forms, onSelected) {
+    super(app);
     this.forms = forms;
     this.onSelected = onSelected;
   }
   onOpen() {
     let destinationFolder = "";
-    let form;
     let noteName = "";
+    let formSelection;
     const { contentEl } = this;
     contentEl.createEl("h1", { text: "New Note from form" });
-    new import_obsidian29.Setting(contentEl).addSearch((element2) => {
-      formSuggester(this.app, element2.inputEl, this.forms, (value) => {
-        form = value;
+    if (this.forms.length === 1) {
+      pipe(
+        this.forms,
+        head5,
+        fold2(
+          () => {
+          },
+          (form) => {
+            formSelection = form;
+            const formInfoEl = contentEl.createEl("div", {
+              text: `Using form: ${form.name}`,
+              cls: "modal-form-selected-form"
+            });
+            formInfoEl.style.padding = "10px";
+            formInfoEl.style.marginBottom = "15px";
+          }
+        )
+      );
+    } else {
+      new import_obsidian29.Setting(contentEl).setDesc("Pick a form").addSearch((element2) => {
+        formSuggester(this.app, element2.inputEl, this.forms, (value) => {
+          formSelection = value;
+        });
       });
-    }).setDesc("Pick a form");
+    }
     new import_obsidian29.Setting(contentEl).addSearch((element2) => {
       new FolderSuggest(element2.inputEl, this.app);
       element2.onChange((value) => {
@@ -27744,13 +28170,13 @@ var NewNoteModal = class extends import_obsidian29.Modal {
     new import_obsidian29.Setting(contentEl).addButton((element2) => {
       element2.setButtonText("Create new note");
       element2.onClick(() => {
-        if (!form || !destinationFolder.trim() || !noteName.trim()) {
+        if (!formSelection || !destinationFolder.trim() || !noteName.trim()) {
           log_notice("Missing fields", "Please fill all the fields");
           return;
         }
         this.close();
         this.onSelected({
-          form,
+          form: formSelection,
           folder: destinationFolder.trim(),
           noteName: noteName.trim()
         });
@@ -27840,7 +28266,7 @@ function makeFormImportModel({ createForm }) {
 }
 
 // src/views/FormImport.svelte
-function add_css18(target) {
+function add_css19(target) {
   append_styles(target, "svelte-it9buy", ".vertical.svelte-it9buy{display:flex;flex-direction:column;height:100%;gap:1rem}.full-height.svelte-it9buy{height:100%;flex:1}.horizontal.svelte-it9buy{display:flex;flex-direction:row;height:100%;gap:0.5rem}button.svelte-it9buy:disabled{opacity:0.5;cursor:not-allowed}.mainView.svelte-it9buy{padding:0.8rem;min-height:50vh}p.svelte-it9buy{margin:0}textarea.svelte-it9buy{font-family:monospace;flex-grow:1;flex-shrink:0;flex-basis:50%}");
 }
 function get_each_context11(ctx, list, i) {
@@ -27949,7 +28375,7 @@ function create_each_block11(ctx) {
     }
   };
 }
-function create_fragment36(ctx) {
+function create_fragment37(ctx) {
   let div3;
   let h1;
   let t1;
@@ -28096,7 +28522,7 @@ function create_fragment36(ctx) {
     }
   };
 }
-function instance36($$self, $$props, $$invalidate) {
+function instance37($$self, $$props, $$invalidate) {
   let ui;
   let $state;
   let { model } = $$props;
@@ -28133,15 +28559,15 @@ function instance36($$self, $$props, $$invalidate) {
 var FormImport = class extends SvelteComponent {
   constructor(options) {
     super();
-    init4(this, options, instance36, create_fragment36, safe_not_equal, { model: 4 }, add_css18);
+    init4(this, options, instance37, create_fragment37, safe_not_equal, { model: 4 }, add_css19);
   }
 };
 var FormImport_default = FormImport;
 
 // src/views/FormImportView.ts
 var FormImportModal = class extends import_obsidian30.Modal {
-  constructor(app2, deps) {
-    super(app2);
+  constructor(app, deps) {
+    super(app);
     this.deps = deps;
   }
   onClose() {
@@ -28158,138 +28584,6 @@ var FormImportModal = class extends import_obsidian30.Modal {
 
 // src/views/TemplateBuilderModal.ts
 var import_obsidian32 = require("obsidian");
-
-// src/views/components/Label.svelte
-function add_css19(target) {
-  append_styles(target, "svelte-176ht1g", ".field-group.svelte-176ht1g{display:flex;flex-direction:column;gap:0.5rem}.inline.svelte-176ht1g{flex-direction:row;align-items:center;gap:1rem}");
-}
-function create_fragment37(ctx) {
-  let label_1;
-  let span;
-  let t0;
-  let t1;
-  let current;
-  const default_slot_template = (
-    /*#slots*/
-    ctx[3].default
-  );
-  const default_slot = create_slot(
-    default_slot_template,
-    ctx,
-    /*$$scope*/
-    ctx[2],
-    null
-  );
-  return {
-    c() {
-      label_1 = element("label");
-      span = element("span");
-      t0 = text(
-        /*label*/
-        ctx[0]
-      );
-      t1 = space();
-      if (default_slot)
-        default_slot.c();
-      attr(label_1, "class", "field-group svelte-176ht1g");
-      toggle_class(
-        label_1,
-        "inline",
-        /*inline*/
-        ctx[1]
-      );
-    },
-    m(target, anchor) {
-      insert(target, label_1, anchor);
-      append5(label_1, span);
-      append5(span, t0);
-      append5(label_1, t1);
-      if (default_slot) {
-        default_slot.m(label_1, null);
-      }
-      current = true;
-    },
-    p(ctx2, [dirty]) {
-      if (!current || dirty & /*label*/
-      1)
-        set_data(
-          t0,
-          /*label*/
-          ctx2[0]
-        );
-      if (default_slot) {
-        if (default_slot.p && (!current || dirty & /*$$scope*/
-        4)) {
-          update_slot_base(
-            default_slot,
-            default_slot_template,
-            ctx2,
-            /*$$scope*/
-            ctx2[2],
-            !current ? get_all_dirty_from_scope(
-              /*$$scope*/
-              ctx2[2]
-            ) : get_slot_changes(
-              default_slot_template,
-              /*$$scope*/
-              ctx2[2],
-              dirty,
-              null
-            ),
-            null
-          );
-        }
-      }
-      if (!current || dirty & /*inline*/
-      2) {
-        toggle_class(
-          label_1,
-          "inline",
-          /*inline*/
-          ctx2[1]
-        );
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(default_slot, local);
-      current = true;
-    },
-    o(local) {
-      transition_out(default_slot, local);
-      current = false;
-    },
-    d(detaching) {
-      if (detaching) {
-        detach(label_1);
-      }
-      if (default_slot)
-        default_slot.d(detaching);
-    }
-  };
-}
-function instance37($$self, $$props, $$invalidate) {
-  let { $$slots: slots = {}, $$scope } = $$props;
-  let { label } = $$props;
-  let { inline = false } = $$props;
-  $$self.$$set = ($$props2) => {
-    if ("label" in $$props2)
-      $$invalidate(0, label = $$props2.label);
-    if ("inline" in $$props2)
-      $$invalidate(1, inline = $$props2.inline);
-    if ("$$scope" in $$props2)
-      $$invalidate(2, $$scope = $$props2.$$scope);
-  };
-  return [label, inline, $$scope, slots];
-}
-var Label = class extends SvelteComponent {
-  constructor(options) {
-    super();
-    init4(this, options, instance37, create_fragment37, safe_not_equal, { label: 0, inline: 1 }, add_css19);
-  }
-};
-var Label_default = Label;
 
 // src/views/components/TemplateBuilder.svelte
 function add_css20(target) {
@@ -28555,7 +28849,7 @@ function create_each_block12(ctx) {
     }
   };
 }
-function create_default_slot_25(ctx) {
+function create_default_slot_26(ctx) {
   let input;
   let input_checked_value;
   let mounted;
@@ -28753,7 +29047,7 @@ function create_fragment38(ctx) {
     props: {
       label: "Include frontmatter fences",
       inline: true,
-      $$slots: { default: [create_default_slot_25] },
+      $$slots: { default: [create_default_slot_26] },
       $$scope: { ctx }
     }
   });
@@ -29169,8 +29463,8 @@ function copyToClipboard(text3) {
 
 // src/views/TemplateBuilderModal.ts
 var TemplateBuilderModal = class extends import_obsidian32.Modal {
-  constructor(app2, deps) {
-    super(app2);
+  constructor(app, deps) {
+    super(app);
     this.deps = deps;
   }
   onClose() {
@@ -29506,6 +29800,71 @@ var ModalFormPlugin = class extends import_obsidian34.Plugin {
       Array_exports.filterMap((form) => form instanceof MigrationError ? Option_exports.none : Option_exports.some(form))
     );
   }
+  /**
+   * Register commands for forms with templates based on their command creation options
+   * @returns Number of commands registered
+   */
+  registerTemplateCommands() {
+    if (!this.settings) {
+      logger.error("Cannot register template commands - settings not loaded");
+      return 0;
+    }
+    const formsWithTemplates = this.getFormsWithTemplates();
+    let commandsRegistered = 0;
+    formsWithTemplates.forEach((form) => {
+      if (!form.template)
+        return;
+      const { createInsertCommand, createNoteCommand } = form.template;
+      if (createInsertCommand) {
+        this.addCommand({
+          id: `insert-template-${form.name}`,
+          name: `Insert template: ${form.name}`,
+          editorCallback: (editor, ctx) => {
+            this.api.openForm(form).then((result2) => {
+              editor.replaceSelection(
+                executeTemplate(form.template.parsedTemplate, result2.getData())
+              );
+              if (ctx instanceof import_obsidian34.MarkdownView) {
+                logger.debug("Saving file after inserting form template");
+                ctx.save().then(() => {
+                  var _a;
+                  const file = (_a = ctx.file) == null ? void 0 : _a.path;
+                  if (!file) {
+                    return;
+                  }
+                  setImmediate(this.templateService.replaceVariablesInFile(file));
+                });
+              } else {
+                notifyWarning("Cannot save file, editor is not a markdown view");
+              }
+            });
+          }
+        });
+        commandsRegistered++;
+      }
+      if (createNoteCommand) {
+        this.addCommand({
+          id: `create-note-from-template-${form.name}`,
+          name: `Create note from template: ${form.name}`,
+          callback: () => {
+            const picker = new NewNoteModal(
+              this.app,
+              [form],
+              ({ form: selectedForm, folder, noteName }) => {
+                this.api.openForm(selectedForm).then((formData) => {
+                  const noteContent = executeTemplate(selectedForm.template.parsedTemplate, formData.getData());
+                  this.createNoteFromTemplate(noteName, noteContent, folder)();
+                });
+              }
+            );
+            picker.open();
+          }
+        });
+        commandsRegistered++;
+      }
+    });
+    return commandsRegistered;
+  }
   async onload() {
     const settings2 = await this.getSettings();
     if (settings2.formDefinitions.length === 0) {
@@ -29515,11 +29874,13 @@ var ModalFormPlugin = class extends import_obsidian34.Plugin {
     this.unsubscribeSettingsStore = settingsStore.subscribe((s) => {
       console.log("settings changed", s);
       this.settings = s;
+      this.registerTemplateCommands();
       this.saveSettings(s);
     });
     this.api = new API(this.app, this);
     this.attachShortcutToGlobalWindow();
     this.templateService = getTemplateService(this.app, logger);
+    this.registerTemplateCommands();
     this.registerView(EDIT_FORM_VIEW, (leaf) => new EditFormView(leaf, this));
     this.registerView(MANAGE_FORMS_VIEW, (leaf) => new ManageFormsView(leaf, this));
     this.registerView(TEMPLATE_BUILDER_VIEW, (leaf) => new TemplateBuilderView(leaf, this));

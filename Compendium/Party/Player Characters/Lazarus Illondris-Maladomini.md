@@ -1,6 +1,6 @@
 ---
 type: pc
-level: 6
+level: 7
 ac: 15
 hp: 50
 modifier: 1
@@ -15,7 +15,7 @@ share_updated: 2025-03-04T18:43:59+00:00
 ---
 
 ###### Lazarus Illondris-Maladomini
-:FasPerson: Player Character | :FasQuoteLeft: Quote or tagline here :FasQuoteRight:
+:FasPerson: Player Character | :FasQuoteLeft: I tried to be a villain and a devil broke my horns, I tried to be a hero and the law banned my wings. Now I have no cause and nothing left to lose. :FasQuoteRight:
 ___
 > [!infobox|no-t right]
 > ![[imgLazarus.png|350]]
@@ -60,8 +60,8 @@ action: {type: open, link: https://www.dndbeyond.com/characters/142643410, newTa
 
 # Profile
 
-> [!recite|clean no-t]
->	A tiefling in his 20s, of average height and crimson skin. White hair with ashen grey flecks slicked back, reddish horns somehow seemingly slicked back too, with one horn broken half way down. Beneath his right eye small scars can be seen, contrasting the wide smile near permanently affixed to his face and decorated by a well kept moustache and goatee. He has a little more fat on his belly than most adventurers, and wears loose fitting but extravagant clothing.
+> [!boxed|no-t]
+>A tiefling in his 20s, of average height and crimson skin. White hair with ashen grey flecks slicked back, reddish horns somehow seemingly slicked back too, with one horn broken half way down. Beneath his right eye small scars can be seen, contrasting the wide smile near permanently affixed to his face and decorated by a well kept moustache and goatee. He has a little more fat on his belly than most adventurers, and wears loose fitting but extravagant clothing.
 >^IntroText
 	
 ### Description
@@ -74,11 +74,19 @@ This upbringing has left him with an a warped sense of morality, he wants to bec
 - Destroy the [[Cult of the Dragon]]
 - Become immortal
 
+### Speech/Quote Ideas
+For if he leans evil when dealing with the cult:
+"I have no greater plan for you to bargain your life to help. I do not care to prostrate myself before the gods and demons of this world that never cared for me, I refuse to play their games. I am here because I want to be and you will die because I want you to and for no higher purpose." "I tried, I tried to be a villain, but a devil broke my horns. I tried to be a hero, but the law banned my wings. Now I have no cause and nothing left to lose." "I do what I desire and what I desire is to see this placed razed to dust in hellfire and dragon's breath."
+
 ### Magic Items / Abilities
 - Draconic Sorcery
 
 ### Allies
 - [[Kotash]]
+- [[Azane]]
+- [[Keit]]
+- [[hank]]
+- [[Bellotorus]]
 
 ### Enemies
 - [[Cult of the Dragon]]
