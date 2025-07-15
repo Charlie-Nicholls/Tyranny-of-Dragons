@@ -1,15 +1,15 @@
 ---
 type: notes
-date: 2025-06-09
-number: 08
+date: 2025-06-23
+number: 09
 locations:
  - 
-alias: "Children's Triathlon"
-displayLink: "[[Session 08]]"
+alias: "We're The Captains Now"
+displayLink: "[[Session 09]]"
 ---
 
 ![[session.png|banner]]
-###### Session 08: `=this.alias`
+###### Session 09: `=this.alias`
 <span class="sub2">:FasCalendar: `=this.date`</span>
 ___
 
@@ -18,7 +18,7 @@ ___
 >> - [[Lazarus Illondris-Maladomini]]
 >> - [[Kotash]]
 >> - [[Azane]]
->> - [[Hank]]
+>> - [[Keit]]
 > 
 >> [!info|flex]- NPCS:
 >> - [[Characters]]
@@ -32,9 +32,7 @@ ___
 ---
 
 ### Notes
-- Biathlon Barry
-- Captain Caprice
-- Fat Dragon figurehead
+- Admiral Fitzgerald
 
 ### Summary
 - Summary of the important points from the session here.

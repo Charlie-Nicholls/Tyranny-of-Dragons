@@ -1,15 +1,15 @@
 ---
 type: notes
-date: 2025-06-09
-number: 08
+date: 2025-07-14
+number: 10
 locations:
  - 
-alias: "Children's Triathlon"
-displayLink: "[[Session 08]]"
+alias: "Azane Creates a Ferris Whale"
+displayLink: "[[Session 10]]"
 ---
 
 ![[session.png|banner]]
-###### Session 08: `=this.alias`
+###### Session 10: `=this.alias`
 <span class="sub2">:FasCalendar: `=this.date`</span>
 ___
 
@@ -32,9 +32,7 @@ ___
 ---
 
 ### Notes
-- Biathlon Barry
-- Captain Caprice
-- Fat Dragon figurehead
+- Spun a whale to death, got a old rusty bathysphere we can use to make a sled
 
 ### Summary
 - Summary of the important points from the session here.
