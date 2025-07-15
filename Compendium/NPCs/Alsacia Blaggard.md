@@ -32,8 +32,8 @@ ___
 
 # Profile
 
-> [!recite|clean no-t]
->	Kidnapped noble
+> [!boxed|no-t]
+> Kidnapped noble
 >^IntroText
 
 ### Description

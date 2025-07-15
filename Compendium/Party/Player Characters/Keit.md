@@ -57,8 +57,8 @@ action: {type: open, link: undefined, newTab: true}
 
 # Profile
 
-> [!recite|clean no-t]
->	One line description
+> [!boxed|no-t]
+> One line description
 >^IntroText
 	
 ### Description
