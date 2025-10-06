@@ -41,6 +41,10 @@ Verse 12: [[The Whiteden Incident]]
 
 Verse 13: [[Rescue Alsacia]]
 
+Verse 14: Pirates
+
+Verse 15: [[Ice Race]] + Killing Dragon
+
 ---
 
 >[!column|flex 2]
