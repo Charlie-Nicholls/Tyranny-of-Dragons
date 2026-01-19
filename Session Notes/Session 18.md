@@ -1,15 +1,15 @@
 ---
 type: notes
-date: 2025-10-06
-number: 15
+date: 2026-01-19
+number: 18
 locations:
  - 
-alias: "Night At The Opera"
-displayLink: "[[Session 15]]"
+alias: "Hop Off"
+displayLink: "[[Session 18]]"
 ---
 
 ![[session.png|banner]]
-###### Session 15: `=this.alias`
+###### Session 18: `=this.alias`
 <span class="sub2">:FasCalendar: `=this.date`</span>
 ___
 
@@ -32,9 +32,9 @@ ___
 ---
 
 ### Notes
-- Smugglers gonna leave the city at night, from a tavern
-- Spaarkshaal, Lazuli Capital of the Stormgiants, hank nat 20 to work out the map to where it is, south west
-- sparkshall, guildervault
+- Red dragon mask in the possession of an ancient red dragon - Mazarik the Devourer 
+	- vault full of traps
+- Mazarik has been himself devoured
 
 ### Summary
 - Summary of the important points from the session here.

@@ -4,7 +4,7 @@ date: 2025-05-06
 number: 06
 locations:
  - 
-alias: ""
+alias: "The Clearly Cursed Mask"
 displayLink: "[[Session 06]]"
 ---
 
