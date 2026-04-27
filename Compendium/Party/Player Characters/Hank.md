@@ -1,6 +1,6 @@
 ---
 type: pc
-level: 1
+level: 6
 ac: 10
 hp: 10
 modifier: 0

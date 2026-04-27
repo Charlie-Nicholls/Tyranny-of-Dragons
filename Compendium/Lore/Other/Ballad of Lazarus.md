@@ -17,6 +17,17 @@ A ballad describing the life of [[Lazarus Illondris-Maladomini]], written by [[K
 ### Verses
 Verse 1: [[Lazarus Illondris-Maladomini#Description|Lazarus' Childhood]]
 
+There once was a boy, with eyes of red,
+Born of devil and dragon, or so they said.
+Grew up in a cult, underground, in the dark,
+They broke his horns and they broke his heart.
+Taught him to hate, to start with himself,
+Then Human and Halfing and Orc and Elf.
+But on the day we start our tale,
+He woke to and skin was dragon scale.
+Broke his chains with spells in his veins and thus
+We Begin the Ballad of Lazarus
+
 Verse 2: [[Lazarus Illondris-Maladomini#Description|Lazarus Runs Away]]
 
 Verse 3: 
@@ -44,6 +55,10 @@ Verse 13: [[Rescue Alsacia]]
 Verse 14: Pirates
 
 Verse 15: [[Ice Race]] + Killing Dragon
+
+Verse 16: Pirate Vault
+
+Verse 17: Identity Crisis
 
 ---
 
