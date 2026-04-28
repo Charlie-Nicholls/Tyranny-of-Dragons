@@ -32,7 +32,10 @@ ___
 ---
 
 ### Notes
-- 
+- Recieved Dragon Head ornament from mysterious fisherman who totally isn't Bahamut
+- Can use it as the material component for Summon Dragon spell to summon a platinum dragon
+- Sold my surname to a sea hag and removed the memory of me from all mortals except [[Hank]], [[Azane]], [[Kotash]] and [[Jarlaxle]]. Extraplanar beings are excluded
+- The others took candy from a baby
 
 ### Summary
 - Summary of the important points from the session here.
