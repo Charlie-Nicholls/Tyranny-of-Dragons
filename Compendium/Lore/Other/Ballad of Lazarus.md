@@ -14,9 +14,7 @@ ___
 ### Description
 A ballad describing the life of [[Lazarus Illondris-Maladomini]], written by [[Kotash]] at his request (and payment). 
 
-### Verses
-Verse 1: [[Lazarus Illondris-Maladomini#Description|Lazarus' Childhood]]
-
+### Lyrics
 There once was a boy, with eyes of red,
 Born of devil and dragon, or so they said.
 Raised by a cult, underground, in the dark,
@@ -33,9 +31,20 @@ I want a hero's fame he said,
 I'll save a dame from dragon flame
 My truest aim that monster slain
 And all the world at once exclaim
-Oh Lazarus he does deserve acclaim!
+Oh Lazarus deserves acclaim!
+
+...
 
 
+I want to sell my name he said,
+I can't take this shame he said,
+She'll break her chains come to this plane
+Engulf in flame and endless pain
+And all the world at once exclaim
+Oh Lazarus deserves the blame!
+
+### Verses
+Verse 1: [[Lazarus Illondris-Maladomini#Description|Lazarus' Childhood]]
 
 Verse 2: [[Lazarus Illondris-Maladomini#Description|Lazarus Runs Away]]
 
