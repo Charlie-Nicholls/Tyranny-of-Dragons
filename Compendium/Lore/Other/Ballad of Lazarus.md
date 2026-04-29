@@ -19,14 +19,23 @@ Verse 1: [[Lazarus Illondris-Maladomini#Description|Lazarus' Childhood]]
 
 There once was a boy, with eyes of red,
 Born of devil and dragon, or so they said.
-Grew up in a cult, underground, in the dark,
+Raised by a cult, underground, in the dark,
 They broke his horns and they broke his heart.
 Taught him to hate, to start with himself,
-Then Human and Halfing and Orc and Elf.
-But on the day we start our tale,
-He woke to and skin was dragon scale.
-Broke his chains with spells in his veins and thus
-We Begin the Ballad of Lazarus
+Then Human and Halfling, Orc and Elf.
+But he woke on the day we start our tale,
+With sorcerer's magic and dragon's scales.
+Broke free of his chains with fire in his veins ,
+and thus, begins the story of Lazarus
+
+I want to make my name he said,
+I want a hero's fame he said,
+I'll save a dame from dragon flame
+My truest aim that monster maim
+And all the world at once exclaim
+Oh Lazarus he does deserve acclaim!
+
+
 
 Verse 2: [[Lazarus Illondris-Maladomini#Description|Lazarus Runs Away]]
 
