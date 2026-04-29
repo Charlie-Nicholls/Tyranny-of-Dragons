@@ -31,7 +31,7 @@ and thus, begins the story of Lazarus
 I want to make my name he said,
 I want a hero's fame he said,
 I'll save a dame from dragon flame
-My truest aim that monster maim
+My truest aim that monster slain
 And all the world at once exclaim
 Oh Lazarus he does deserve acclaim!
 
